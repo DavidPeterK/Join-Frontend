@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/animation.css">
+    <link rel="stylesheet" href="src/css/fonts.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/navbar-header.css">
+    <link rel="shortcut icon" href="src/img/Logo for Favicon construction.svg" type="image/x-icon">
+
+    <script src="src/js/saveAndLoad.js"></script>
+    <script src="src/js/templates.js"></script>
+    <script src="src/js/animation.js"></script>
+    <title>Join</title>
+</head>
+
+<body onload="controlLogIn()" onclick="closeHeadMenu()">
+    <div id="header" class="header">
+        <span class="header-span">Kanban Project Management Tool</span>
+        <img class="header-logo" src="src/img/join-logo.svg" alt="head-logo">
+        <div id="headBox" class="header-elements">
+            <a href="./help.html"><img class="header-questMark" src="src/img/helpIcon.svg" alt="questionMarker"></a>
+            <div onclick="openHeaderMenu(event)" id="headerUserCircle" class="header-userCircle"></div>
+        </div>
+    </div>
+
+    <div id="navBar" class="navBar">
+        <img id="navBarLogo" src="src/img/join.logo-white.svg" alt="join-logo">
+        <div id="navBox" class="nav-elements">
+            <a id="summaryNavButton" href="./summary.html" class="nav-button"><img id="summaryNavIcon" class="nav-icons"
+                    src="src/img/SummaryIcon.svg" alt="nav-icon">Summary
+            </a>
+            <a id="addTaskNavButton" href="./addTask.html" class="nav-button"><img id="addTaskNavIcon" class="nav-icons"
+                    src="src/img/add.task.icons.svg" alt="nav-icon">Add Task
+            </a>
+            <a id="boardNavButton" href="./board.html" class="nav-button"><img id="boardNavIcon" class="nav-icons"
+                    src="src/img/board-icon.svg" alt="nav-icon">Board
+            </a>
+            <a id="contactsNavButton" href="./contacts.html" class="nav-button"><img id="contactsNavIcon"
+                    class="nav-icons" src="src/img/contacts-icon.svg" alt="nav-icon">Contacts
+            </a>
+        </div>
+
+        <div class="nav-footer">
+            <a href="./privacyPolicy.html" class="navbar-footer-span">Privacy Policy</a>
+            <a href="./legalNotice.html" class="navbar-footer-span">Legal notice</a>
+        </div>
+    </div>
+
+    <div id="userOptions" onclick="doNotClose(event)" class="user-options d-none">
+        <a href="./legalNotice.html" class="userOptionsSpan">Legal Notice</a>
+        <a href="./privacyPolicy.html" class="userOptionsSpan">Privacy Policy</a>
+        <a href="./help.html" class="userOptionsSpan">Help</a>
+        <a href="./index.html" class="userOptionsSpan">Log out</a>
+    </div>
+
+    <div class="contentBox">
+        <h2 style="margin-bottom: 32px; width: 100%; display: flex; justify-content: space-between;">Help
+            <img onclick="goBack()" class="cursor" src="src/img/arror-left.svg" alt="arrow left">
+        </h2>
+        <span style="margin-bottom: 24px;">
+            Welcome to the help page for <span style=" color: var(--Ligth-blue, #29ABE2);">Join</span>
+            , your guide to using our kanban project management tool. Here, we'll
+            provide
+            an
+            overview of what <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+            is, how it can benefit you, and how to use it.
+        </span>
+
+        <span style="margin-bottom: 16px;">
+            <b style="font-size: 27px;">What is Join?</b>
+        </span>
+
+        <span style="margin-bottom: 24px;">
+            <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+            is a kanban-based project management tool designed and built by a group of dedicated students as
+            part
+            of
+            their web development bootcamp at the Developer Akademie.<br><br>
+            Kanban, a Japanese term meaning "billboard", is
+            a
+            highly effective method to visualize
+            work, limit work-in-progress, and maximize efficiency (or flow).
+            <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+            leverages the principles of kanban
+            to
+            help
+            users manage their tasks and projects in an intuitive, visual interface.<br><br>
+            It is important to note that
+            <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+            is designed as an educational
+            exercise and is not intended for extensive business usage. While we strive to ensure the best possible
+            user
+            experience, we cannot guarantee consistent availability, reliability, accuracy, or other aspects of
+            quality
+            regarding <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+            .
+        </span>
+
+        <span style="margin-bottom: 16px;">
+            <b style="font-size: 27px;">How to use it</b>
+        </span>
+        <span class="fontSize16">
+            Here is a step-by-step guide on how to use
+            <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>:
+        </span>
+
+
+        <table style="margin-top: 16px; margin-bottom: 24px;">
+            <tr>
+                <td>
+                    <span><b style="font-size: 27px; margin-right: 24px;">1.</b></span>
+                </td>
+                <td>
+                    <span style="font-size: 20px;"><b>Exploring the Board</b></span><br>
+                    <span style="font-size: 16px;">
+                        When you log in to <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+                        , you'll find a default
+                        board. This board represents your project and contains four default lists: "To Do", "In
+                        Progress",
+                        “Await feedback” and "Done".
+                    </span>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td>
+                    <span><b style="font-size: 27px; margin-right: 24px;">2.</b></span>
+                </td>
+                <td>
+                    <span style="font-size: 20px;"><b>Creating Contacts</b></span><br>
+                    <span style="font-size: 16px;">
+                        In <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+                        , you can add contacts to collaborate on your
+                        projects. Go
+                        to the "Contacts" section,
+                        click on "New contact", and fill in the required information. Once added, these contacts can
+                        be
+                        assigned tasks and they can interact with the tasks on the board.
+                    </span>
+                </td>
+            <tr>
+            <tr style="margin-bottom: 16px;"></tr>
+            <td>
+                <span><b style="font-size: 27px; margin-right: 24px;">3.</b></span>
+            </td>
+            <td>
+                <span style="font-size: 20px;"><b>Adding Cards</b></span><br>
+                <span style="font-size: 16px;">
+                    Now that you've added your contacts, you can start adding cards. Cards represent
+                    individual tasks. Click the "+" button under the appropriate list to create a new card. Fill in
+                    the
+                    task details in the card, like task name,
+                    description, due date, assignees, etc.
+                </span>
+            </td>
+            <tr style="margin-bottom: 16px;"></tr>
+            <tr>
+                <td>
+                    <span><b style="font-size: 27px; margin-right: 24px;">4.</b></span>
+                </td>
+                <td>
+                    <span style="font-size: 20px;"><b>Moving Cards</b></span><br>
+                    <span style="font-size: 16px;">
+                        As the task moves from one stage to another, you can reflect that on the board by
+                        dragging and dropping the card from one list to another.
+                    </span>
+                </td>
+            </tr>
+            <tr style="margin-bottom: 16px;"></tr>
+            <tr>
+                <td>
+                    <span><b style="font-size: 27px; margin-right: 24px;">5.</b></span>
+                </td>
+                <td>
+                    <span style="font-size: 20px;"><b>Deleting Cards</b></span><br>
+                    <span style="font-size: 16px;">
+                        Once a task is completed, you can either move it to the "Done" list or delete it.
+                        Deleting a card will permanently remove it from the board. Please exercise caution when
+                        deleting
+                        cards, as this action is irreversible. Remember
+                        that using <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+                        effectively requires consistent updates from
+                        you
+                        and
+                        your team to ensure the board reflects the current state of your project. Have more
+                        questions
+                        about
+                        <span style="color: var(--Ligth-blue, #29ABE2);">Join</span>
+                        ?
+                        Feel free to contact us at [Your Contact Email]. We're here to help you!
+                    </span>
+                </td>
+            </tr>
+        </table>
+
+        <span style="font-size: 27px;">
+            <b>Enjoy using Join!</b>
+        </span>
+
+    </div>
+</body>
+
+</html>

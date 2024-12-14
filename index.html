@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="src/css/animation.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/fonts.css">
+    <link rel="stylesheet" href="src/css/login-register.css">
+    <link rel="shortcut icon" href="src/img/Logo for Favicon construction.svg" type="image/x-icon">
+
+    <script src="src/js/saveAndLoad.js"></script>
+    <script src="src/js/templates.js"></script>
+    <script src="src/js/login.js"></script>
+    <script src="src/js/register.js"></script>
+    <script src="src/js/animation.js"></script>
+    <title>Join</title>
+</head>
+
+<body onload="initIndex()">
+    <div class="column100center">
+
+        <div class="flex100space">
+            <img id="logo" class="d-none" src="src/img/headIconLeft.svg" alt="join-logo">
+            <div id="signSectionTop">
+            </div>
+        </div>
+
+        <div id="indexContainer" class="log-in-window d-none"></div>
+
+        <div id="signSectionBottom" class="sign-up-section">
+        </div>
+
+        <div id="footer" class="index-footer d-none">
+            <a style="text-decoration: none;" href="./privacyPolicy.html" class="index-footer-span">Privacy Policy</a>
+            <a style="text-decoration: none;" href="./legalNotice.html" class="index-footer-span">Legal notice</a>
+        </div>
+
+    </div>
+    <div id="successfullyCreated" class="d-none"></div>
+</body>
+
+</html>

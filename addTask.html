@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/animation.css">
+    <link rel="stylesheet" href="src/css/fonts.css">
+    <link rel="stylesheet" href="src/css/navbar-header.css">
+    <link rel="stylesheet" href="src/css/popUp.css">
+    <link rel="stylesheet" href="src/css/addTask.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <link rel="shortcut icon" href="src/img/Logo for Favicon construction.svg" type="image/x-icon">
+
+    <script src="src/js/saveAndLoad.js"></script>
+    <script src="src/js/templates.js"></script>
+    <script src="src/js/animation.js"></script>
+    <script src="src/js/addTask-prio.js"></script>
+    <script src="src/js/addTask-categorys.js"></script>
+    <script src="src/js/addTask-subtask.js"></script>
+    <script src="src/js/addTask-contacts.js"></script>
+    <script src="src/js/contacts.js"></script>
+    <script src="src/js/addTask.js"></script>
+    <title>Join</title>
+</head>
+
+<body onload="addTaskInit()"
+    onclick="closeHeadMenu(), hideEditContainer(), hideCategoryContainer(), closeContactsContainer()">
+    <div id="header" class="header">
+        <span class="header-span">Kanban Project Management Tool</span>
+        <img class="header-logo" src="src/img/join-logo.svg" alt="head-logo">
+        <div class="header-elements">
+            <a href="./help.html"><img class="header-questMark" src="src/img/helpIcon.svg" alt="questionMarker"></a>
+            <div onclick="openHeaderMenu(event)" id="headerUserCircle" class="header-userCircle"></div>
+        </div>
+    </div>
+
+    <div id="navBar" class="navBar">
+        <img id="navBarLogo" src="src/img/join.logo-white.svg" alt="join-logo">
+        <div class="nav-elements">
+            <a id="summaryNavButton" href="./summary.html" class="nav-button"><img id="summaryNavIcon" class="nav-icons"
+                    src="src/img/SummaryIcon.svg" alt="nav-icon">Summary
+            </a>
+            <a id="addTaskNavButton" href="./addTask.html" class="nav-button"><img id="addTaskNavIcon" class="nav-icons"
+                    src="src/img/add.task.icons.svg" alt="nav-icon">Add Task
+            </a>
+            <a id="boardNavButton" href="./board.html" class="nav-button"><img id="boardNavIcon" class="nav-icons"
+                    src="src/img/board-icon.svg" alt="nav-icon">Board
+            </a>
+            <a id="contactsNavButton" href="./contacts.html" class="nav-button"><img id="contactsNavIcon"
+                    class="nav-icons" src="src/img/contacts-icon.svg" alt="nav-icon">Contacts
+            </a>
+        </div>
+
+        <div class="nav-footer">
+            <a href="./privacyPolicy.html" class="navbar-footer-span">Privacy Policy</a>
+            <a href="./legalNotice.html" class="navbar-footer-span">Legal notice</a>
+        </div>
+
+    </div>
+
+    <div id="userOptions" onclick="doNotClose(event)" class="user-options d-none">
+        <a href="./legalNotice.html" class="userOptionsSpan">Legal Notice</a>
+        <a href="./privacyPolicy.html" class="userOptionsSpan">Privacy Policy</a>
+        <a href="./help.html" class="userOptionsSpan">Help</a>
+        <a href="./index.html" class="userOptionsSpan">Log out</a>
+    </div>
+
+    <div id="successfullyCreated" class="d-none"></div>
+
+    <div id="contentId" class="content-addTask">
+
+        <div class="head-section-addTask">
+            <h2>Add Task</h2>
+        </div>
+
+        <div class="addTaskContent">
+            <div class="boxLeft">
+                <span class="addTaskSpan">Title<span class="star-red">*</span></span>
+                <div id="addTaskTitleBox" class="addTask-input-container">
+                    <input id="addTaskTitleInput" type="text" placeholder="Enter a title" maxlength="20" minlength="4">
+                </div>
+                <span id="warnTitle" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
+                    This field is required.
+                </span>
+
+
+                <div class="gapContainer"></div>
+
+                <span class="addTaskSpan">Description<span class="star-red">*</span></span>
+                <textarea id="addTaskDescriptionInput" placeholder="Enter a Description" cols="30" rows="10"></textarea>
+                <span id="warnDescription" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
+                    This field is required.
+                </span>
+
+                <div class="gapContainer"></div>
+
+                <span class="addTaskSpan">Assigned to</span>
+                <div onclick="openContactsContainer(), doNotClose(event)" id="addTaskContactsInputBox"
+                    class="addTask-input-container" style="z-index: 0;">
+                    <input id="addTaskContactsInput" readonly type="text" value="Select contacts to assign">
+                    <img onclick="openContactsContainer(), doNotClose(event)" id="contactsInputArrow"
+                        class="greyHoverIcon addTask-input-icon" src="src/img/arrow_drop_downaa.svg"
+                        alt="arrow-down-icon">
+                </div>
+                <div id="selectedContactsContainer" class="selected-contacts-container">
+                </div>
+                <div onclick="doNotClose(event)" id="contactsCollectionContainer" class="contacts-container d-none">
+                    <div style="width: 100%;" id="contactsContent">
+                    </div>
+                    <button onclick="showContactsPopUp()" class="addContacts-button">Add new contact</button>
+                </div>
+            </div>
+
+            <div class="gapContainer1200"></div>
+
+            <div class="boxRight">
+                <span class="addTaskSpan">Due date<span class="star-red">*</span></span>
+                <div id="addTaskDueDateBox" class="addTask-input-container">
+                    <input placeholder="dd/mm/yyyy" type="text" id="datepicker">
+                    <img src="src/img/kalenderJoin.svg" alt="date-icon">
+                </div>
+                <span id="warnDueDate" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
+                    This field is required.
+                </span>
+
+                <div class="gapContainer"></div>
+
+                <span class="addTaskSpan">Prio</span>
+                <div id="prioSection" class="prioContainer">
+                </div>
+
+                <div class="gapContainer"></div>
+
+                <span class="addTaskSpan">Category<span class="star-red">*</span></span>
+                <div onclick="showCategoryContainer(), doNotClose(event)" style="z-index: 1;"
+                    class="addTask-input-container">
+                    <input id="categoryInput" readonly type="text" value="Select task category">
+                    <img onclick="hideCategoryContainer()" id="categoryInputArrow"
+                        class="addTask-input-icon greyHoverIcon" src="src/img/arrow_drop_downaa.svg"
+                        alt="arrow-down-icon">
+                </div>
+                <div onclick="doNotClose(event)" id="categoryContainer" style="z-index: 0;"
+                    class="category-container d-none">
+                    <div id="categoryContent">
+                    </div>
+                    <button onclick="showCategoryPopUp()" class="addCategory-button">Add new category</button>
+                </div>
+
+                <div class="gapContainer"></div>
+
+                <span class="addTaskSpan">Subtasks</span>
+                <div class="addTask-input-container">
+                    <input id="subtaskInput" type="text" placeholder="Add new subtask">
+                    <img class="greyHoverIcon" onclick="addSubTask()" src="src/img/plusAddTask.svg" alt="plus-icon">
+                </div>
+                <div onclick="doNotClose(event)" id="subtasksContainer">
+                </div>
+                <div id="subtaskEditContainer" onclick="doNotClose(event)" class="d-none">
+                    <input id="editSubtaskInput" max="20" type="text" placeholder="">
+                    <div style="display: flex; gap: 5px;">
+                        <img class="greyHoverIcon" onclick="hideEditContainer()" src="src/img/close.svg">
+                        <div class="seperator"></div>
+                        <img class="greyHoverIcon" style="padding-left: 3px; padding-right: 3px;"
+                            onclick="editSubtask()" src="src/img/SubtasksCheck.svg">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="addTask-buttonArea">
+            <span class="addTask-requiredSpan"><span class="star-red">*</span>This field is required</span>
+            <div class="addTask-button-container">
+                <div onclick="clearAddTask(), renderAllSelectedContacts(), controlPrioButton(), renderSubTasks();"
+                    onmouseover="changeImage('clearButton', 'src/img/crossBlue.png')"
+                    onmouseout="restoreImage('clearButton', 'src/img/crossAddTask.svg')" class="clear-button">Clear <img
+                        id="clearButton" style="width: 24px; height: 24px;" src="src/img/crossAddTask.svg"
+                        alt="cross-icon"></div>
+                <div onclick="setStatusToDo(), loadTaskControl('')" class="createTask-button button-hover">Create Task
+                    <img src="src/img/check.svg" alt="check-icon">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactsPopUp" class="pop-background d-none">
+    </div>
+
+    <div id="categoryPopUp" class="pop-background d-none">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+</body>
+
+</html>

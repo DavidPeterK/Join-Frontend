@@ -1,0 +1,84 @@
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animated {
+    animation: logoAnimation 825ms forwards;
+    animation-delay: 1300ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes logoAnimation {
+    0% {
+        width: 273px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: #F6F7F8;
+    }
+
+    100% {
+        width: 15%;
+        left: 7vw;
+        top: 4vh;
+        bottom: 10vh;
+        transform: translateY(0);
+        background: #f6f7f800;
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(700%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+#successfullyCreated {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - width);
+    background: #2A3647;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 74px;
+    padding: 0px 25px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    height: 74px !important;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    animation: slide 0.5s ease-in-out;
+    z-index: 5;
+}

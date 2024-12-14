@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/animation.css">
+    <link rel="stylesheet" href="src/css/fonts.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/navbar-header.css">
+    <link rel="shortcut icon" href="src/img/Logo for Favicon construction.svg" type="image/x-icon">
+
+    <script src="src/js/saveAndLoad.js"></script>
+    <script src="src/js/templates.js"></script>
+    <script src="src/js/animation.js"></script>
+    <title>Join</title>
+</head>
+
+<body onload="controlLogIn()" onclick="closeHeadMenu()">
+    <div id="header" class="header">
+        <span class="header-span">Kanban Project Management Tool</span>
+        <img class="header-logo" src="src/img/join-logo.svg" alt="head-logo">
+        <div id="headBox" class="header-elements">
+            <a href="./help.html"><img class="header-questMark" src="src/img/helpIcon.svg" alt="questionMarker"></a>
+            <div onclick="openHeaderMenu(event)" id="headerUserCircle" class="header-userCircle"></div>
+        </div>
+    </div>
+    <div id="navBar" class="navBar">
+        <img id="navBarLogo" src="src/img/join.logo-white.svg" alt="join-logo">
+        <div id="navBox" class="nav-elements">
+            <a id="summaryNavButton" href="./summary.html" class="nav-button"><img id="summaryNavIcon" class="nav-icons"
+                    src="src/img/SummaryIcon.svg" alt="nav-icon">Summary
+            </a>
+            <a id="addTaskNavButton" href="./addTask.html" class="nav-button"><img id="addTaskNavIcon" class="nav-icons"
+                    src="src/img/add.task.icons.svg" alt="nav-icon">Add Task
+            </a>
+            <a id="boardNavButton" href="./board.html" class="nav-button"><img id="boardNavIcon" class="nav-icons"
+                    src="src/img/board-icon.svg" alt="nav-icon">Board
+            </a>
+            <a id="contactsNavButton" href="./contacts.html" class="nav-button"><img id="contactsNavIcon"
+                    class="nav-icons" src="src/img/contacts-icon.svg" alt="nav-icon">Contacts
+            </a>
+        </div>
+        <div class="nav-footer">
+            <a href="./privacyPolicy.html" class="navbar-footer-span">Privacy Policy</a>
+            <a href="./legalNotice.html" class="navbar-footer-span">Legal notice</a>
+        </div>
+    </div>
+    <div id="userOptions" onclick="doNotClose(event)" class="user-options d-none">
+        <a href="./legalNotice.html" class="userOptionsSpan">Legal Notice</a>
+        <a href="./privacyPolicy.html" class="userOptionsSpan">Privacy Policy</a>
+        <a href="./help.html" class="userOptionsSpan">Help</a>
+        <a href="./index.html" class="userOptionsSpan">Log out</a>
+    </div>
+    <div class="contentBox">
+        <h2 style="margin-bottom: 32px; width: 100%; display: flex; justify-content: space-between;">Legal Notice
+            <img onclick="goBack()" class="cursor" src="src/img/arror-left.svg" alt="arrow left">
+        </h2>
+        <span class="fontSize27 column mb16">
+            <b style="font-size: 27px;">Imprint</b><br>
+        </span>
+        <span class="fontSize16 mb24 column">
+            David Peterka<br><br>
+        </span>
+        <span class="fontSize20 column">
+            <b style="font-size: 20px;">Exploring the Board</b>
+        </span>
+        <span style="font-size: 16px;" class="fontSize26 mb24 column">
+            Email: <a style="text-decoration: none; color: blue;"
+                href="mailto:david_peterka@yahoo.de">David_Peterka&#64;yahoo.de</a>
+        </span><br>
+        <span class="fontSize20 column">
+            <b style="font-size: 20px;">Acceptance of terms</b>
+        </span>
+        <span class="fontSize16 mb24 column">
+            By accessing and using Join (Product), you acknowledge and agree to the following terms and conditions, and
+            any
+            policies, guidelines, or amendments thereto that may be presented to you from time to time. We, the listed
+            students, may update or change the
+            terms and conditions from time to time without notice.
+        </span><br>
+        <span class="fontSize20">
+            <b style="font-size: 20px;">Scope and ownership of the product</b>
+        </span>
+        <span class="fontSize16 mb24 column">
+            Join has been developed as part of a student group project in a web development bootcamp at the Developer
+            Akademie GmbH. It has an educational purpose and is not intended for extensive personal & business usage. As
+            such, we cannot guarantee consistent
+            availability, reliability, accuracy, or any other aspect of quality regarding this Product. The design of
+            Join
+            is owned by the Developer Akademie GmbH. Unauthorized use, reproduction, modification, distribution, or
+            replication of the design is strictly
+            prohibited.
+        </span><br>
+        <span class="fontSize20">
+            <b style="font-size: 20px;">Proprietary rights</b>
+        </span>
+        <span class="fontSize16 mb24 column">
+            Aside from the design owned by Developer Akademie GmbH, we, the listed students, retain all proprietary
+            rights
+            in Join, including any associated copyrighted material, trademarks, and other proprietary information.
+        </span><br>
+        <span class="fontSize20">
+            <b style="font-size: 20px;">Use of the product</b>
+        </span>
+        <span class="fontSize16 mb24 column">
+            Join is intended to be used for lawful purposes only, in accordance with all applicable laws and
+            regulations.
+            Any use of Join for illegal activities, or to harass, harm, threaten, or intimidate another person, is
+            strictly
+            prohibited. You are solely responsible
+            for your interactions with other users of Join.
+        </span><br>
+        <span class="fontSize20">
+            <b style="font-size: 20px;">Disclaimer of warranties and limitation of liability</b>
+        </span>
+        <span class="fontSize16 mb24 column">
+            Join is provided "as is" without warranty of any kind, whether express or implied, including but not limited
+            to
+            the implied warranties of merchantability, fitness for a particular purpose, and non-infringement. In no
+            event
+            will we, the listed students,
+            or the Developer Akademie, be liable for any direct, indirect, incidental, special, consequential or
+            exemplary
+            damages, including but not limited to, damages for loss of profits, goodwill, use, data, or other intangible
+            losses, even if we have been
+            advised of the possibility of such damages, arising out of or in connection with the use or performance of
+            Join.
+        </span>
+    </div>
+</body>
+
+</html>

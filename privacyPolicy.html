@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/animation.css">
+    <link rel="stylesheet" href="src/css/fonts.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/navbar-header.css">
+    <link rel="shortcut icon" href="src/img/Logo for Favicon construction.svg" type="image/x-icon">
+
+    <script src="src/js/saveAndLoad.js"></script>
+    <script src="src/js/templates.js"></script>
+    <script src="src/js/animation.js"></script>
+    <title>Join</title>
+</head>
+
+<body onload="controlLogIn()" onclick="closeHeadMenu()">
+    <div id="header" class="header">
+        <span class="header-span">Kanban Project Management Tool</span>
+        <img class="header-logo" src="src/img/join-logo.svg" alt="head-logo">
+        <div id="headBox" class="header-elements">
+            <a href="./help.html"><img class="header-questMark" src="src/img/helpIcon.svg" alt="questionMarker"></a>
+            <div onclick="openHeaderMenu(event)" id="headerUserCircle" class="header-userCircle"></div>
+        </div>
+    </div>
+
+    <div id="navBar" class="navBar">
+        <img id="navBarLogo" src="src/img/join.logo-white.svg" alt="join-logo">
+        <div id="navBox" class="nav-elements">
+            <a id="summaryNavButton" href="./summary.html" class="nav-button"><img id="summaryNavIcon" class="nav-icons"
+                    src="src/img/SummaryIcon.svg" alt="nav-icon">Summary
+            </a>
+            <a id="addTaskNavButton" href="./addTask.html" class="nav-button"><img id="addTaskNavIcon" class="nav-icons"
+                    src="src/img/add.task.icons.svg" alt="nav-icon">Add Task
+            </a>
+            <a id="boardNavButton" href="./board.html" class="nav-button"><img id="boardNavIcon" class="nav-icons"
+                    src="src/img/board-icon.svg" alt="nav-icon">Board
+            </a>
+            <a id="contactsNavButton" href="./contacts.html" class="nav-button"><img id="contactsNavIcon"
+                    class="nav-icons" src="src/img/contacts-icon.svg" alt="nav-icon">Contacts
+            </a>
+        </div>
+
+        <div class="nav-footer">
+            <a href="./privacyPolicy.html" class="navbar-footer-span">Privacy Policy</a>
+            <a href="./legalNotice.html" class="navbar-footer-span">Legal notice</a>
+        </div>
+    </div>
+
+    <div id="userOptions" onclick="doNotClose(event)" class="user-options d-none">
+        <a href="./legalNotice.html" class="userOptionsSpan">Legal Notice</a>
+        <a href="./privacyPolicy.html" class="userOptionsSpan">Privacy Policy</a>
+        <a href="./help.html" class="userOptionsSpan">Help</a>
+        <a href="./index.html" class="userOptionsSpan">Log out</a>
+    </div>
+
+    <div class="contentBox">
+        <div>
+            <div>
+                <h2 style="margin-bottom: 32px; width: 100%; display: flex; justify-content: space-between;">Privacy
+                    Policy
+                    <img onclick="goBack()" class="cursor" src="src/img/arror-left.svg" alt="arrow left">
+                </h2>
+            </div>
+            <span style="margin-bottom: 10px;">
+                <b style="font-size: 27px;">Angaben gemäß § 5 TMG</b>
+            </span>
+            <span
+                style="font-size: 16px; margin-bottom: 35px; display: flex; flex-direction: column; align-items: flex-start;">
+                <br>
+                David Peterka<br>
+                Jägergasse 55a<br>
+                06463 Reinstedt<br><br>
+            </span>
+            <span><b style="font-size: 27px;">Vertreten
+                    durch:</b></span>
+            <span style="font-size: 18px; padding-left: 12px;">David Peterka<br></span><br>
+            <span class="fontSize27 mb10">
+                <b>Kontakt:</b>
+            </span>
+            <span style="margin-bottom: 35px;" class="fontSize16 mb35">
+                David Peterka<br><br>
+                <b>E-Mail:</b> <a href='mailto:david_peterka@yahoo.de'>david_peterka@yahoo.de</a></br><br>
+            </span>
+            <span style="font-size: 16px;">
+                Website Impressum erstellt durch
+                <a href="https://www.impressum-generator.de">impressum-generator.de</a>
+                von der
+                <a href="https://www.kanzlei-hasselbach.de/" rel="nofollow">Kanzlei Hasselbach</a>
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/animation.css">
+    <link rel="stylesheet" href="src/css/fonts.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/navbar-header.css">
+    <link rel="stylesheet" href="src/css/summary.css">
+    <link rel="shortcut icon" href="src/img/Logo for Favicon construction.svg" type="image/x-icon">
+
+    <script src="src/js/saveAndLoad.js"></script>
+    <script src="src/js/templates.js"></script>
+    <script src="src/js/animation.js"></script>
+    <script defer src="src/js/summary.js"></script>
+    <title>Join</title>
+</head>
+
+<body onload="initSummary()" onclick="closeHeadMenu()">
+
+    <div id="header" class="header">
+        <span class="header-span">Kanban Project Management Tool</span>
+        <img class="header-logo" src="src/img/join-logo.svg" alt="head-logo">
+        <div class="header-elements">
+            <a href="./help.html"><img class="header-questMark" src="src/img/helpIcon.svg" alt="questionMarker"></a>
+            <div onclick="openHeaderMenu(event)" id="headerUserCircle" class="header-userCircle">AB</div>
+        </div>
+    </div>
+
+    <div id="navBar" class="navBar">
+        <img id="navBarLogo" src="src/img/join.logo-white.svg" alt="join-logo">
+        <div class="nav-elements">
+            <a id="summaryNavButton" href="./summary.html" class="nav-button"><img id="summaryNavIcon" class="nav-icons"
+                    src="src/img/SummaryIcon.svg" alt="nav-icon">Summary
+            </a>
+            <a id="addTaskNavButton" href="./addTask.html" class="nav-button"><img id="addTaskNavIcon" class="nav-icons"
+                    src="src/img/add.task.icons.svg" alt="nav-icon">Add Task
+            </a>
+            <a id="boardNavButton" href="./board.html" class="nav-button"><img id="boardNavIcon" class="nav-icons"
+                    src="src/img/board-icon.svg" alt="nav-icon">Board
+            </a>
+            <a id="contactsNavButton" href="./contacts.html" class="nav-button"><img id="contactsNavIcon"
+                    class="nav-icons" src="src/img/contacts-icon.svg" alt="nav-icon">Contacts
+            </a>
+        </div>
+
+        <div class="nav-footer">
+            <a href="./privacyPolicy.html" class="navbar-footer-span">Privacy Policy</a>
+            <a href="./legalNotice.html" class="navbar-footer-span">Legal notice</a>
+        </div>
+
+    </div>
+
+    <div id="userOptions" onclick="doNotClose(event)" class="user-options d-none">
+        <a href="./legalNotice.html" class="userOptionsSpan">Legal Notice</a>
+        <a href="./privacyPolicy.html" class="userOptionsSpan">Privacy Policy</a>
+        <a href="./help.html" class="userOptionsSpan">Help</a>
+        <a href="./index.html" class="userOptionsSpan">Log out</a>
+    </div>
+
+    <div id="contentId" class="content">
+
+        <div class="head-section">
+            <h2>Join</h2>
+            <div class="vector-span-direction">
+                <div class="vectorSummary"></div>
+                <span class="head-span">Key Metrics at a Glance</span>
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-content">
+
+                <div class="content-row1">
+                    <div onmouseover="changeImage('penIcon', 'src/img/stiftweiss.png')"
+                        onmouseout="restoreImage('penIcon', 'src/img/pen-icon.png')" class="row1-container">
+                        <img id="penIcon" class="row-icons" src="src/img/pen-icon.png" alt="pen-icon">
+                        <div class="column-center">
+                            <span class="row-number" id="todoNumber"></span>
+                            <span class="row-span">To-do</span>
+                        </div>
+                    </div>
+                    <div onmouseover="changeImage('checkIcon', 'src/img/hackenweiss.png')"
+                        onmouseout="restoreImage('checkIcon', 'src/img/check-icon.png')" class="row1-container">
+                        <img id="checkIcon" class="row-icons" src="src/img/check-icon.png" alt="check-icon">
+                        <div class="column-center">
+                            <span class="row-number" id="doneNumber"></span>
+                            <span class="row-span">Done</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-row2">
+                    <div class="row2-container">
+                        <div class="row2-part1">
+                            <img class="row-icons" src="src/img/prioUrgentSummary.png" alt="check-icon">
+                            <div class="column-center">
+                                <span class="row-number" id="urgentNumber"></span>
+                                <span class="row-span">Urgent</span>
+                            </div>
+                        </div>
+                        <div class="vector-summary"></div>
+                        <div class="column-center">
+                            <span class="row-span-medium" id="urgentDate">October 16, 2022</span>
+                            <span class="row-span-small">Upcoming Deadline</span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="content-row3">
+                    <div class="row3-container">
+                        <div class="column-center">
+                            <span class="row-number" id="tasksInBoard"></span>
+                            <span class="row-span">Tasks in Board</span>
+                        </div>
+                    </div>
+                    <div class="row3-container">
+                        <div class="column-center">
+                            <span class="row-number" id="tasksInProgress"></span>
+                            <span class="row-span">Tasks In Progress</span>
+                        </div>
+                    </div>
+                    <div class="row3-container">
+                        <div class="column-center">
+                            <span class="row-number" id="awaitingFeedback">1</span>
+                            <span class="row-span">Awaiting Feedback</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="greetingBox" class="greeting-container fade-in d-none">
+                <span id="dayTimeGreeting" class="greeting-span"></span>
+                <span id="greetingUser"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

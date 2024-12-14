@@ -1,0 +1,569 @@
+/* open-sans-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/open-sans-v36-latin-regular.woff2') format('woff2');
+}
+
+/* inter-regular - latin */
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/inter-v13-latin-700.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/inter-v13-latin-600.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/inter-v13-latin-500.woff2') format('woff2');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/inter-v13-latin-regular.woff2') format('woff2');
+}
+
+h3 {
+    font-size: 47px;
+    font-weight: 700;
+    margin: 0;
+}
+
+h2 {
+    color: #000;
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 120%;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+li {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.head-span {
+    color: #2A3647;
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.greeting-span {
+    color: #2A3647;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+#greetingUser {
+    color: #29ABE2;
+    font-size: 57px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.row-number {
+    text-align: center;
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 120%;
+}
+
+.row-span {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.row-span-medium {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.row-span-small {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.userOptionsSpan {
+    display: flex;
+    color: #CDCDCD;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    line-height: 120%;
+    width: 130px;
+    height: 25px;
+    padding: 8px;
+    align-items: center;
+    gap: 8px;
+}
+
+.userOptionsSpan:hover {
+    cursor: pointer;
+    background: #2A3D59;
+}
+
+.task-group-span {
+    color: var(--menu-color, #42526E);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.empty-label {
+    color: var(--icon, #A8A8A8);
+    font-family: Open Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.taskCategorySpan {
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+
+.currentTaskCategorySpan {
+    color: #FFF;
+    font-family: Open Sans;
+    font-size: 23px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.currentTaskTitelSpan {
+    color: var(--black, #000);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 120%;
+    align-self: stretch;
+    word-wrap: break-word;
+}
+
+.currentTaskDescriptionSpan {
+    color: var(--black, #000);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+    align-self: stretch;
+    word-wrap: break-word;
+}
+
+.currentTaskSpan {
+    color: var(--Version-2-main-color, #2A3647);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.currentTaskContactCircle {
+    color: #FFF;
+    text-align: center;
+    font-family: Inter;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.currentTaskContactName {
+    color: #000;
+    font-family: Open Sans;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    word-break: break-all;
+}
+
+.currentTaskSubtaskSpan {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.titelSpan {
+    color: var(--version-2-main-color, #2A3647);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 120%;
+    align-self: stretch;
+}
+
+.progressSpan {
+    color: #000;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.addTaskSpan {
+    color: var(--version-2-main-color, #2A3647);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+    margin-bottom: 8px;
+}
+
+.prioButton {
+    color: #000;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.addTask-requiredSpan {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.star-red {
+    color: #FF8190;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.clear-button {
+    color: var(--version-2-main-color, #2A3647);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.createTask-button {
+    color: #FFF;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.list-container-button {
+    color: var(--white, #FFF);
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.addContacts-button,
+.addCategory-button {
+    color: var(--white, #FFF);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.alphabet-letter {
+    color: #000;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.contact-circle {
+    color: var(--white, #FFF);
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.contact-name-list {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+    word-break: break-all;
+
+}
+
+.contact-email-list {
+    color: #007CEE;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.big-contact-circle {
+    color: #FFF;
+    text-align: center;
+    font-size: 47px;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+.contacts-info-name-span {
+    color: #000;
+    font-size: 47px;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+
+.delete-button,
+.edit-button {
+    color: var(--version-2-main-color, #2A3647);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.headline-info-center {
+    color: #000;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.email-headline {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.email-adress {
+    color: #007CEE;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.phone-number:hover,
+.email-adress:hover {
+    text-decoration: underline !important;
+}
+
+.phone-headline {
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.phone-number {
+    color: #000;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+.category-span {
+    color: var(--black, #000);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+@media (max-width: 1550px) {
+    .task-group-span {
+        font-size: 27px;
+    }
+
+    .big-contact-circle {
+        font-size: 40px;
+    }
+
+}
+
+@media (max-width: 1300px) {
+    h2 {
+        font-size: 55px;
+    }
+
+    .head-span {
+        font-size: 23px;
+    }
+
+    .greeting-span {
+        font-size: 35px;
+    }
+
+    #greetingUser {
+        font-size: 46px;
+    }
+
+    .row-number {
+        font-size: 46px;
+    }
+
+    .row-span {
+        font-size: 16px;
+    }
+
+    .row-span-medium {
+        font-size: 19px;
+    }
+
+    .row-span-small {
+        font-size: 15px;
+    }
+
+    .list-container-button {
+        font-size: 19px;
+    }
+
+    .contact-name-list {
+        font-size: 18px;
+    }
+
+    .contact-email-list {
+        font-size: 15px;
+    }
+
+    .contacts-info-name-span {
+        font-size: 35px;
+    }
+
+    .big-contact-circle {
+        font-size: 35px;
+    }
+
+}
+
+@media (min-width:700px) {
+    h3 {
+        font-size: 61px !important;
+    }
+}
+
+@media (max-width:1020px) {
+    h2 {
+        font-size: 50px;
+    }
+
+    .head-span {
+        font-size: 24px;
+    }
+
+    .userOptionsSpan {
+        font-size: 15px;
+        width: 130px;
+        height: 20px;
+        gap: 8px;
+    }
+
+    .addTaskSpan {
+        font-size: 19.5px;
+    }
+
+    .category-span,
+    .prioButton {
+        font-size: 18px;
+    }
+
+    .star-red {
+        font-size: 18.5px;
+    }
+
+    .addTask-requiredSpan {
+        font-size: 16px;
+    }
+
+    .createTask-button {
+        font-size: 18px;
+    }
+
+    .contacts-info-name-span {
+        font-size: 30px;
+    }
+
+    .big-contact-circle {
+        font-size: 23px;
+    }
+
+    .empty-label {
+        font-size: 14px;
+    }
+}
+
+@media (max-width:700px) {
+    h2 {
+        font-size: 47px !important;
+        margin-top: 32px;
+        margin-bottom: 0;
+    }
+
+    .head-span {
+        font-size: 20px;
+    }
+
+    .row-number {
+        font-size: 40px;
+    }
+
+    .row-span {
+        font-size: 14px;
+    }
+
+    .category-span,
+    .row-span-medium {
+        font-size: 16px;
+    }
+
+    .row-span-small {
+        font-size: 12px;
+    }
+
+    .userOptionsSpan {
+        font-size: 14px;
+        width: 130px;
+        height: 17px;
+        gap: 8px;
+    }
+
+    .addTaskSpan {
+        font-size: 18px;
+    }
+
+    .prioButton {
+        font-size: 17px;
+    }
+
+    .star-red {
+        font-size: 16px;
+    }
+
+    .addTask-requiredSpan {
+        font-size: 14px;
+    }
+
+    .createTask-button {
+        font-size: 16px;
+    }
+
+    .contacts-info-name-span {
+        font-size: 30px;
+        text-align: center;
+    }
+}
