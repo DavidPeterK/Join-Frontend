@@ -92,37 +92,94 @@ function warnDueDate() {
 /**
  * Creates a new task and adds it to the tasks collection.
  */
+
 async function createTask() {
-    let task = createTaskObject();
-    tasks.push(task);
-    currentId++;
-    await currentUserIdSave();
-    await currentUserTaskSave();
-    changesSaved('Task added to board');
-    if (window.location === './board.html') {
-        closeAddTaskPopup()
-        renderAllTasks();
+    try {
+        let task = createTaskObject();
+
+        // POST-Request an die Django-API, um die neue Task zu speichern
+        const response = await fetch('http://localhost:8000/api/tasks/list/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(task),
+        });
+
+        if (!response.ok) {
+            console.log(response);
+            throw new Error('Fehler beim Speichern der neuen Task.');
+        }
+
+        // Gespeicherte Task von der API zurückbekommen (inkl. Django-ID)
+        const savedTask = await response.json();
+
+        // Die neue Task zur lokalen Task-Liste hinzufügen
+        tasks.push(savedTask);
+
+        changesSaved('Task added to board');
+
+        // Überprüfen, ob auf der Board-Seite die Tasks neu geladen werden sollen
+        if (window.location.pathname.endsWith('board.html')) {
+            closeAddTaskPopup();
+            renderAllTasks();
+        }
+        else {
+            // Nach einer kurzen Verzögerung zur Board-Seite navigieren
+            setTimeout(() => {
+                window.location.href = './board.html';
+            }, 3000);
+        }
+    } catch (error) {
+        console.error('Fehler beim Erstellen der Task:', error);
     }
-    setTimeout(() => { window.location.href = './board.html'; }, 3000);
 }
+
 
 /**
  * Edits an existing task based on the provided ID.
  */
-async function editTasks(id) {
-    let index = tasks.findIndex(object => object.id === id);
-    let task = createTaskObject();
-    tasks[index] = task;
-    await currentUserTaskSave();
-    changesSaved('Task added to board');
-    closeAddTaskPopup();
-    renderAllTasks();
+async function editTasks(taskId) {
+    try {
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+        if (taskIndex === -1) {
+            console.error("Task nicht gefunden.");
+            return;
+        }
+        const updatedTask = createTaskObject();
+
+        // PUT-Request an die API senden, um die Task zu aktualisieren
+        const response = await fetch(`http://localhost:8000/api/tasks/edit/${taskId}/`, {
+            method: 'PUT',  // Vollständiges Update
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedTask),
+        });
+
+        if (!response.ok) {
+            throw new Error('Fehler beim Aktualisieren der Task.');
+        }
+
+        console.log('Task erfolgreich aktualisiert.');
+
+        // Lokale Task-Liste aktualisieren
+        tasks[taskIndex] = updatedTask;
+
+        // Tasks neu rendern
+        changesSaved('Task added to board');
+        closeAddTaskPopup();
+        await loadAllTasks();
+        renderAllTasks();
+    } catch (error) {
+        console.error('Fehler:', error);
+    }
 }
+
 
 /** Collects and returns data for a new task. */
 function createTaskObject() {
     return {
-        'id': currentId,
         'status': statusGroup,
         'category': currentCategorySelected.name,
         'categoryColor': currentCategorySelected.color,

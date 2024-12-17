@@ -90,31 +90,15 @@ function isUserLoggedLoad() {
     isUserLoggedIn = JSON.parse(logged);
 }
 
-/**
- * Checks if a certain key exists in storage, if not, sets a default value.
- * @param {string} key - Key to check in storage.
- * @param {*} initialValue - The initial value to set if key is not found.
- * @returns {Promise<void>}
- */
-async function initializeStorage(key, initialValue) {
-    try {
-        await getItem(key);
-    } catch (e) {
-        console.info(`Key "${key}" not found in storage. Initializing with default value.`);
-        await setItem(key, JSON.stringify(initialValue));
-    }
-}
 
 /**
  * Asynchronously saves the current user's tasks. 
  * If the active user is 'Guest', the tasks are saved to local storage. 
  * Otherwise, they are saved to remote storage.
  */
-async function currentUserTaskSave() {
+function currentUserTaskSave() {
     if (isGuestLogIn()) {
         localStorage.setItem('tasksAsText', JSON.stringify(tasks));
-    } else {
-        await setItem('tasks', JSON.stringify(tasks));
     }
 }
 
@@ -131,9 +115,14 @@ async function loadAllTasks() {
         }
     } else {
         try {
-            tasks = JSON.parse(await getItem('tasks'));
-        } catch (e) {
-            console.info('Could not load tasks');
+            const response = await fetch('http://localhost:8000/api/tasks/list/');
+            if (!response.ok) {
+                throw new Error('Fehler beim Laden der Tasks');
+            }
+            tasks = await response.json();
+            console.log('Tasks erfolgreich geladen:', tasks);
+        } catch (error) {
+            console.error('Fehler:', error);
         }
     }
 }
@@ -147,8 +136,6 @@ async function loadAllTasks() {
 async function currentUserIdSave() {
     if (isGuestLogIn()) {
         localStorage.setItem('currentIdAsText', JSON.stringify(currentId));
-    } else {
-        await setItem('currentId', JSON.stringify(currentId));
     }
 }
 
@@ -163,12 +150,6 @@ async function currentUserIdLoad() {
         if (currentIdLoad) {
             currentId = JSON.parse(currentIdLoad);
         }
-    } else {
-        try {
-            currentId = JSON.parse(await getItem('currentId'));
-        } catch (e) {
-            console.info('Could not load currentId');
-        }
     }
 }
 
@@ -179,11 +160,7 @@ async function currentUserIdLoad() {
  * Otherwise, they are saved to remote storage.
  */
 async function currentUserCategorysSave() {
-    if (isGuestLogIn()) {
-        localStorage.setItem('categorysAsText', JSON.stringify(ownCategorys));
-    } else {
-        await setItem('ownCategorys', JSON.stringify(ownCategorys));
-    }
+    localStorage.setItem('categorysAsText', JSON.stringify(ownCategorys));
 }
 
 /**
@@ -192,17 +169,9 @@ async function currentUserCategorysSave() {
  * Otherwise, they are fetched from remote storage.
  */
 async function currentUserCategorysLoad() {
-    if (isGuestLogIn()) {
-        let categorysLoad = localStorage.getItem('categorysAsText');
-        if (categorysLoad) {
-            ownCategorys = JSON.parse(categorysLoad);
-        }
-    } else {
-        try {
-            ownCategorys = JSON.parse(await getItem('ownCategorys'));
-        } catch (e) {
-            console.info('Could not load created categorys. created categorys are empty');
-        }
+    let categorysLoad = localStorage.getItem('categorysAsText');
+    if (categorysLoad) {
+        ownCategorys = JSON.parse(categorysLoad);
     }
 }
 
@@ -258,15 +227,4 @@ function loadActivUser() {
         activUser = JSON.parse(activUserLoad);
     }
 }
-
-///**
-// * Loads existing users from the storage.
-// */
-//async function loadUserGroup() {
-//    try {
-//        user = JSON.parse(await getItem('userGroup'));
-//    } catch (e) {
-//        console.info('empty user array:', e);
-//    }
-//}
 

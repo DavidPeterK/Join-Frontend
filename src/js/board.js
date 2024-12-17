@@ -6,7 +6,7 @@ async function initBoard() {
     loadActivUser();
     userCircleLoad();
     await currentUserContactsLoad();
-    await currentUserCategorysLoad();
+    currentUserCategorysLoad();
     await currentUserIdLoad();
     await loadAllTasks();
     renderPrioSection();
@@ -123,12 +123,45 @@ function allowDrop(ev, id) {
 }
 
 /** * Moves a task to a specified group. */
+/** 
+ * Moves a task to a specified group and speichert die Änderung auf dem Server.
+ */
 async function moveTo(group) {
-    let index = tasks.findIndex(object => object.id === dragElement);
-    tasks[index].status = group;
-    await currentUserTaskSave();
-    renderAllTasks();
+    try {
+        // Index der zu verschiebenden Task finden
+        let index = tasks.findIndex(task => task.id === dragElement);
+        if (index === -1) {
+            console.error("Task nicht gefunden");
+            return;
+        }
+
+        // Status der Task lokal aktualisieren
+        tasks[index].status = group;
+
+        // PATCH-Request an den Server senden
+        const response = await fetch(`http://localhost:8000/api/tasks/edit/${dragElement}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: group }) // Nur das Feld 'status' senden
+        });
+
+        if (!response.ok) {
+            throw new Error('Fehler beim Aktualisieren der Task');
+        }
+
+        console.log('Task erfolgreich verschoben');
+
+        // Lokale Taskliste aktualisieren und neu rendern
+        currentUserTaskSave(); // Optional: Lokale Speicherung synchronisieren
+        renderAllTasks();
+
+    } catch (error) {
+        console.error('Fehler beim Verschieben der Task:', error);
+    }
 }
+
 
 /** * Displays the add task popup for a specified status group. */
 async function showAddTaskPopup(status) {
