@@ -5,8 +5,8 @@ async function initBoard() {
     highLightNavBar('src/img/boardActiv.svg', 'boardNavIcon', 'boardNavButton');
     loadActivUser();
     userCircleLoad();
-    await currentUserContactsLoad();
-    currentUserCategorysLoad();
+    await loadAllContacts();
+    await currentUserCategorysLoad();
     await currentUserIdLoad();
     await loadAllTasks();
     renderPrioSection();
@@ -128,35 +128,24 @@ function allowDrop(ev, id) {
  */
 async function moveTo(group) {
     try {
-        // Index der zu verschiebenden Task finden
         let index = tasks.findIndex(task => task.id === dragElement);
         if (index === -1) {
             console.error("Task nicht gefunden");
             return;
         }
-
-        // Status der Task lokal aktualisieren
         tasks[index].status = group;
-
-        // PATCH-Request an den Server senden
         const response = await fetch(`http://localhost:8000/api/tasks/edit/${dragElement}/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ status: group }) // Nur das Feld 'status' senden
+            body: JSON.stringify({ status: group })
         });
-
         if (!response.ok) {
             throw new Error('Fehler beim Aktualisieren der Task');
         }
-
         console.log('Task erfolgreich verschoben');
-
-        // Lokale Taskliste aktualisieren und neu rendern
-        currentUserTaskSave(); // Optional: Lokale Speicherung synchronisieren
         renderAllTasks();
-
     } catch (error) {
         console.error('Fehler beim Verschieben der Task:', error);
     }
@@ -235,20 +224,42 @@ function renderContactRowPopUp(array) {
     }
 }
 
-/** * Moves a subtask between in-progress and finished status. */
+/**
+ * Moves a subtask between in-progress and finished status and saves changes to the server.
+ */
 async function moveASubtask(index, subtask) {
-    let array = tasks[index];
-    let subtaskFinishId = array.subtasksFinish;
-    if (subtaskFinishId.some(subTasks => subTasks === subtask)) {
-        let indexSub = subtaskFinishId.findIndex(subTasks => subTasks === subtask);
-        subtaskFinishId.splice(indexSub, 1);
-        await currentUserTaskSave();
-    } else {
-        subtaskFinishId.push(subtask);
-        await currentUserTaskSave();
+    try {
+        let task = tasks[index];
+        let finishedSubtasks = task.subtasksFinish;
+        // Subtask zwischen "In Progress" und "Finished" verschieben
+        if (finishedSubtasks.some(subTasks => subTasks === subtask)) {
+            // Subtask aus "Finished" entfernen
+            let indexSub = finishedSubtasks.findIndex(subTasks => subTasks === subtask);
+            finishedSubtasks.splice(indexSub, 1);
+        } else {
+            // Subtask zu "Finished" hinzufügen
+            finishedSubtasks.push(subtask);
+        }
+        tasks[index].subtasksFinish = finishedSubtasks;
+        const response = await fetch(`http://localhost:8000/api/tasks/edit/${task.id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                subtasksFinish: finishedSubtasks
+            }),
+        });
+        if (!response.ok) {
+            throw new Error('Fehler beim Speichern der Subtasks.');
+        }
+        console.log('Subtask-Änderungen erfolgreich gespeichert.');
+        renderSubtaskRowPopUp(task, index);
+    } catch (error) {
+        console.error('Fehler beim Bewegen des Subtasks:', error);
     }
-    renderSubtaskRowPopUp(array, index);
 }
+
 
 /** * Renders the subtask row in the current task popup. */
 function renderSubtaskRowPopUp(array, index) {
@@ -284,13 +295,26 @@ function closeDeleteWindow() {
     container.classList.add('d-none');
 }
 
-/** * Deletes a task and updates the UI. */
+/**
+ * Deletes a task from the server and updates the UI.
+ */
 async function deleteTask(index) {
-    tasks.splice(index, 1);
-    await currentUserTaskSave();
-    closeDeleteWindow();
-    renderAllTasks();
-    closeCurrentTaskPopUp();
+    try {
+        const task = tasks[index];
+        const response = await fetch(`http://localhost:8000/api/tasks/edit/${task.id}/`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            throw new Error('Fehler beim Löschen der Aufgabe.');
+        }
+        console.log(`Task mit ID ${task.id} erfolgreich gelöscht.`);
+        tasks.splice(index, 1);
+        closeDeleteWindow();
+        renderAllTasks();
+        closeCurrentTaskPopUp();
+    } catch (error) {
+        console.error('Fehler beim Löschen der Aufgabe:', error);
+    }
 }
 
 /** * Returns the HTML for the current task popup. */

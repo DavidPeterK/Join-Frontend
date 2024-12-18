@@ -10,7 +10,7 @@ async function addTaskInit() {
     highLightNavBar('src/img/addTaskActiv.svg', 'addTaskNavIcon', 'addTaskNavButton');
     loadActivUser();
     userCircleLoad();
-    await currentUserContactsLoad();
+    await loadAllContacts();
     await currentUserCategorysLoad();
     await currentUserIdLoad();
     await loadAllTasks();
@@ -27,19 +27,22 @@ function loadTaskControl(id) {
     let title = document.getElementById('addTaskTitleInput');
     let description = document.getElementById('addTaskDescriptionInput');
     let dueDate = document.getElementById('datepicker');
-    createTaskControl(title, description, dueDate, id);
+    let categoryId = document.getElementById("categoryInput");
+    createTaskControl(title, description, dueDate, categoryId, id);
 }
 
 /**
  * Controls the creation or editing of a task based on the input values.
  */
-function createTaskControl(title, description, dueDate, id) {
+function createTaskControl(title, description, dueDate, categoryId, id) {
     if (title.value === '') {
-        warnTitle();
+        warnValTask('addTaskTitleBox', 'warnTitle');
     } else if (description.value === '') {
-        warnDescription();
+        warnValTask('addTaskDescriptionInput', 'warnDescription');
     } else if (dueDate.value === '') {
-        warnDueDate();
+        warnValTask('addTaskDueDateBox', 'warnDueDate');
+    } else if (categoryId.value === 'Select task category') {
+        warnValTask("categoryBox", 'warnCategory');
     } else if (id === '') {
         createTask();
     } else {
@@ -50,54 +53,23 @@ function createTaskControl(title, description, dueDate, id) {
 /**
  * Displays a warning for a missing task title.
  */
-function warnTitle() {
-    let titleBox = document.getElementById('addTaskTitleBox');
-    let titleWarn = document.getElementById('warnTitle');
-    titleBox.classList.add('red-border');
-    titleWarn.classList.remove('d-none');
+function warnValTask(box, title) {
+    let outline = document.getElementById(box);
+    let warnTitle = document.getElementById(title);
+    outline.classList.add('red-border');
+    warnTitle.classList.remove('d-none');
     setTimeout(() => {
-        titleBox.classList.remove('red-border');
-        titleWarn.classList.add('d-none');
-    }, 4000);
-}
-
-/**
- * Displays a warning for a missing task description.
- */
-function warnDescription() {
-    let description = document.getElementById('addTaskDescriptionInput');
-    let descriptionWarn = document.getElementById('warnDescription');
-    description.classList.add('red-border');
-    descriptionWarn.classList.remove('d-none');
-    setTimeout(() => {
-        description.classList.remove('red-border');
-        descriptionWarn.classList.add('d-none');
-    }, 4000);
-}
-
-/**
- * Displays a warning for a missing due date.
- */
-function warnDueDate() {
-    let dueDateBox = document.getElementById('addTaskDueDateBox');
-    let dueDateWarn = document.getElementById('warnDueDate');
-    dueDateBox.classList.add('red-border');
-    dueDateWarn.classList.remove('d-none');
-    setTimeout(() => {
-        dueDateBox.classList.remove('red-border');
-        dueDateWarn.classList.add('d-none');
+        outline.classList.remove('red-border');
+        warnTitle.classList.add('d-none');
     }, 4000);
 }
 
 /**
  * Creates a new task and adds it to the tasks collection.
  */
-
 async function createTask() {
     try {
         let task = createTaskObject();
-
-        // POST-Request an die Django-API, um die neue Task zu speichern
         const response = await fetch('http://localhost:8000/api/tasks/list/', {
             method: 'POST',
             headers: {
@@ -105,27 +77,18 @@ async function createTask() {
             },
             body: JSON.stringify(task),
         });
-
         if (!response.ok) {
             console.log(response);
             throw new Error('Fehler beim Speichern der neuen Task.');
         }
-
-        // Gespeicherte Task von der API zurückbekommen (inkl. Django-ID)
         const savedTask = await response.json();
-
-        // Die neue Task zur lokalen Task-Liste hinzufügen
         tasks.push(savedTask);
-
         changesSaved('Task added to board');
-
-        // Überprüfen, ob auf der Board-Seite die Tasks neu geladen werden sollen
         if (window.location.pathname.endsWith('board.html')) {
             closeAddTaskPopup();
             renderAllTasks();
         }
         else {
-            // Nach einer kurzen Verzögerung zur Board-Seite navigieren
             setTimeout(() => {
                 window.location.href = './board.html';
             }, 3000);
@@ -134,7 +97,6 @@ async function createTask() {
         console.error('Fehler beim Erstellen der Task:', error);
     }
 }
-
 
 /**
  * Edits an existing task based on the provided ID.
@@ -147,26 +109,18 @@ async function editTasks(taskId) {
             return;
         }
         const updatedTask = createTaskObject();
-
-        // PUT-Request an die API senden, um die Task zu aktualisieren
         const response = await fetch(`http://localhost:8000/api/tasks/edit/${taskId}/`, {
-            method: 'PUT',  // Vollständiges Update
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(updatedTask),
         });
-
         if (!response.ok) {
             throw new Error('Fehler beim Aktualisieren der Task.');
         }
-
         console.log('Task erfolgreich aktualisiert.');
-
-        // Lokale Task-Liste aktualisieren
         tasks[taskIndex] = updatedTask;
-
-        // Tasks neu rendern
         changesSaved('Task added to board');
         closeAddTaskPopup();
         await loadAllTasks();
@@ -175,7 +129,6 @@ async function editTasks(taskId) {
         console.error('Fehler:', error);
     }
 }
-
 
 /** Collects and returns data for a new task. */
 function createTaskObject() {

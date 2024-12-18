@@ -5,7 +5,7 @@ async function contactsInit() {
     highLightNavBar('src/img/contactsActiv.svg', 'contactsNavIcon', 'contactsNavButton');
     loadActivUser();
     userCircleLoad();
-    await currentUserContactsLoad();
+    await loadAllContacts();
     renderContacts();
     renderContactInfoEmpty();
 }
@@ -117,26 +117,68 @@ function initContactPopUp(array) {
     document.getElementById('contactPhone').value = array.phone;
 }
 
-/** * This function is to save the input in the contact array */
+/**
+ * This function saves a new contact to the database and updates the local contact array.
+ */
 async function createContact() {
-    let newContact = contactTemplate();
-    contactsArray.push(newContact);
-    contactId++;
-    await currentUserContactsSave();
-    changesSaved('Contact successfully created');
-    renderContactInfo(contactId - 1);
+    try {
+        let newContact = contactTemplate();
+
+        // POST-Request an die API senden
+        const response = await fetch('http://localhost:8000/api/contacts/list/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newContact),
+        });
+
+        if (!response.ok) {
+            throw new Error('Fehler beim Erstellen des Kontakts');
+        }
+
+        const savedContact = await response.json(); // Kontakt mit Server-ID zurückbekommen
+        contactsArray.push(savedContact); // Lokales Array aktualisieren
+
+        changesSaved('Contact successfully created');
+        renderContactInfo(savedContact.id); // Rendern mit der tatsächlichen Server-ID
+
+    } catch (error) {
+        console.error('Fehler beim Erstellen des Kontakts:', error);
+    }
 }
 
+
 /**
- * Edits an existing contact, updates it in the contacts array, and saves changes to the current user.
+ * Edits an existing contact, updates it in the database, and synchronizes with the local array.
  */
 async function editContact(index) {
-    let newContact = contactTemplate();
-    contactsArray[index] = newContact;
-    contactId++;
-    await currentUserContactsSave();
-    changesSaved('Contact successfully edited');
-    renderContactInfo(contactId - 1);
+    try {
+        let contact = contactsArray[index]; // Bestehenden Kontakt abrufen
+        let updatedContact = contactTemplate();
+
+        // PATCH-Request an die API senden
+        const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedContact),
+        });
+
+        if (!response.ok) {
+            throw new Error('Fehler beim Bearbeiten des Kontakts');
+        }
+
+        const savedContact = await response.json(); // Aktualisierte Daten zurückbekommen
+        contactsArray[index] = savedContact; // Lokales Array aktualisieren
+
+        changesSaved('Contact successfully edited');
+        renderContactInfo(savedContact.id); // Rendern mit der tatsächlichen Server-ID
+
+    } catch (error) {
+        console.error('Fehler beim Bearbeiten des Kontakts:', error);
+    }
 }
 
 /**
@@ -150,17 +192,29 @@ function deleteContactWindow(id) {
     container.classList.remove('d-none');
 }
 
+
 /**
- * Deletes a contact from the contacts array and saves changes to the current user.
+ * Deletes a contact from the server and updates the UI.
  */
-function deleteContact(index) {
-    let container = document.getElementById('contactsDeletePopUp');
-    contactsArray.splice(index, 1);
-    currentUserContactsSave();
-    closeContactInfoSmall();
-    renderContactInfoEmpty();
-    container.classList.add('d-none');
+async function deleteContact(index) {
+    try {
+        const contact = contactsArray[index];
+        const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            throw new Error('Fehler beim Löschen des Kontakts.');
+        }
+        console.log(`Kontakt mit ID ${contact.id} erfolgreich gelöscht.`);
+        contactsArray.splice(index, 1);
+        closeContactInfoSmall();
+        renderContactInfoEmpty();
+        document.getElementById('contactsDeletePopUp').classList.add('d-none');
+    } catch (error) {
+        console.error('Fehler beim Löschen des Kontakts:', error);
+    }
 }
+
 
 /**
  * Renders the contact information in a popup for smaller screens.

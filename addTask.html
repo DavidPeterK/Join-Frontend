@@ -135,7 +135,7 @@
 
                 <span class="addTaskSpan">Category<span class="star-red">*</span></span>
                 <div onclick="showCategoryContainer(), doNotClose(event)" style="z-index: 1;"
-                    class="addTask-input-container">
+                    class="addTask-input-container" id="categoryBox">
                     <input id="categoryInput" readonly type="text" value="Select task category">
                     <img onclick="hideCategoryContainer()" id="categoryInputArrow"
                         class="addTask-input-icon greyHoverIcon" src="src/img/arrow_drop_downaa.svg"
@@ -147,6 +147,10 @@
                     </div>
                     <button onclick="showCategoryPopUp()" class="addCategory-button">Add new category</button>
                 </div>
+                <span id="warnCategory" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
+                    This field is required.
+                </span>
+
 
                 <div class="gapContainer"></div>
 

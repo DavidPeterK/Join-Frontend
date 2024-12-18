@@ -123,7 +123,6 @@ function filterContactsForSearch(filter, contacts) {
     var filterContacts = contacts.filter(function (contact) {
         return contact.name.toLowerCase().includes(filter.toLowerCase());
     });
-
     return filterContacts;
 }
 
@@ -178,15 +177,28 @@ function selectContactRow(id) {
 }
 
 /**
- * Creates a new contact and adds it to the contacts array.
+ * This function saves a new contact to the database and updates the local contact array.
  */
 async function createContact() {
-    let newContact = contactTemplate();
-    contactsArray.push(newContact);
-    contactId++;
-    await currentUserContactsSave();
-    changesSaved('Contact successfully created');
-    openContactsContainer()
+    try {
+        let newContact = contactTemplate();
+        const response = await fetch('http://localhost:8000/api/contacts/list/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newContact),
+        });
+        if (!response.ok) {
+            throw new Error('Fehler beim Erstellen des Kontakts');
+        }
+        const savedContact = await response.json();
+        contactsArray.push(savedContact);
+        changesSaved('Contact successfully created');
+        openContactsContainer()
+    } catch (error) {
+        console.error('Fehler beim Erstellen des Kontakts:', error);
+    }
 }
 
 /**

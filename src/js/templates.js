@@ -6,14 +6,11 @@ function signInHtml() {
             <h3>Log in</h3>
             <div class="blueUnderline"></div>
         </div>
-
         <div class="input-section">
-
             <div class="input-container" id="input-user">
                 <input required id="userLogin" type="text" placeholder="Username">
                 <img class="input-icon" src="src/img/input-person.svg" alt="person-icon">
             </div>
-
             <div class="input-container" id="input-password">
                 <input required id="passwordLogin" type="password" placeholder="Password">
                 <img class="input-icon" src="src/img/password-icon.svg" alt="password-icon">
@@ -21,12 +18,10 @@ function signInHtml() {
             <div class="warning-field">
                 <span id="warning-text-password" class="d-none">Please enter the correct username or password.</span>
             </div>
-
             <div class="remember-container">
                 <input type="checkbox" id="rememberMe" name="rememberMe">
                 <span id="label-span">Remember me</span>
             </div>
-
             <div class="button-section">
                 <button type="submit" id="login-button" class="button button-hover">Log in</button>
                 <button onclick='guestLogin()' type="button" id="guest-login-button" class="button">Guest Log in</button>
@@ -57,7 +52,6 @@ function signUpHtml() {
             </div>
             <div></div>
         </div>
-
         <div class="input-section">
             <div class="input-container" id="containerUserName">
                 <input required type="text" minlength="4" placeholder="Name" id="userRegist">
@@ -68,8 +62,6 @@ function signUpHtml() {
                     This username already exists.
                 </span>
             </div>
-
-
             <div class="input-container" id="inputEmail">
                 <input required type="email" minlength="4" placeholder="Email" id="emailRegist">
                 <img class="input-icon" src="src/img/input-mail.svg" alt="email-icon">
@@ -79,7 +71,6 @@ function signUpHtml() {
                     This email address already exists.
                 </span>
             </div>
-
             <div class="input-container" id="inputPassword">
                 <input required type="password" minlength="4" placeholder="Password" id="passwordRegist">
                 <img class="input-icon" src="src/img/password-icon.svg" alt="password-icon">
@@ -89,7 +80,6 @@ function signUpHtml() {
                     Password do not Match.
                 </span>
             </div>
-
             <div class="input-container" id="inputConfirmPassword">
                 <input required type="password" minlength="4" placeholder="Confirm Password" id="confirmPasswordRegist">
                 <img class="input-icon" src="src/img/password-icon.svg" alt="password-icon">
@@ -99,12 +89,10 @@ function signUpHtml() {
                     Password do not Match.
                 </span>
             </div>
-
             <div class="privacy-check-container">
                 <input type="checkbox" value="yes" required id="checkPrivacyPolicy" name="acceptPrivacyPolicy">
                 <span id="label-span">I accept the <a style="text-decoration: none" href="./privacy-police.html">Privacy policy</a></span>
             </div>
-
             <div class="button-section">
                 <button type="submit" id="signUpButton" class="button button-hover">Sign up</button>
             </div>

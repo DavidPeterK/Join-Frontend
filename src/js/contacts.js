@@ -35,7 +35,6 @@ function contactTemplate() {
         "email": document.getElementById('contactEmail').value,
         "phone": document.getElementById('contactPhone').value,
         "color": getColor(),
-        "id": contactId
     }
 }
 
@@ -156,10 +155,10 @@ function returnPopUpContactNew(mode, index) {
     let sub;
     let button;
     if (mode === 'edit') {
-        sub = `onsubmit = "validateForm('edit', ${index});`;
+        sub = `onsubmit = "validateForm('edit', ${index});return false;"`;
         button = 'Save';
     } else {
-        sub = `onsubmit="validateForm();`;
+        sub = `onsubmit="validateForm();return false;"`;
         button = 'Create contact';
     }
     return /*html*/`
@@ -182,7 +181,7 @@ function returnPopUpContactNew(mode, index) {
             </div>
         </div>
 
-        <form ${sub} return false;" style="display: flex; align-self: stretch; flex: 2;">
+        <form ${sub} style="display: flex; align-self: stretch; flex: 2;">
             <div class="pop-input-box">
                 <div class="input-pop-container" id="contactNameBox">
                     <input required type="text" minlength="4" placeholder="Name" id="contactUserName">

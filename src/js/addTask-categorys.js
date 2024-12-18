@@ -295,7 +295,6 @@ function returnCategoryPopUp() {
         <img onclick="closeCategoryPopUp()" class="blue-cross greyHoverIcon" src="src/img/iconoir_cancel.svg"
             alt="">
         <img onclick="closeCategoryPopUp()" class="grey-cross greyHoverIcon" src="src/img/closeGrey.svg" alt="">
-
         <div class="pop-head-box">
             <img class="pop-logo" style="width: 55px; height: 55px;" src="src/img/join.logo-white.svg"
                 alt="join-logo">
@@ -303,14 +302,11 @@ function returnCategoryPopUp() {
             <span class="pop-slogen">Create your own category!</span>
             <div class="pop-vector"></div>
         </div>
-
         <div class="pop-icon-box">
             <div class="pop-person-background"><img class="pop-person-png" src="src/img/addTaskCategory.svg"
                     alt="person-icon"></div>
         </div>
-
         <div class="pop-input-box">
-
             <div class="input-pop-container" id="newCategoryNameContainer">
                 <input style="width: 100%;" id="newCategoryName" type="text" placeholder="New category"
                     id="contactUserName">
@@ -318,9 +314,7 @@ function returnCategoryPopUp() {
             <span id="warnCategoryInput" style="text-align: center;" class="warningByInput d-none">
                 Please enter a category name and choose a color.
             </span>
-
             <div id="colorSettingBox"></div>
-
             <div class="pop-button-box">
                 <div onclick="stopCreateCategory()" class="pop-button-cancel">Cancel</div>
                 <div onclick="confirmCreateCategory()" class="pop-button-create">Create category</div>
