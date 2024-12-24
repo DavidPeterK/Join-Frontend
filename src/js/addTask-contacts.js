@@ -97,7 +97,6 @@ function changeCloseInputBox() {
 
 /**
  * Renders all contacts, optionally filtered based on the provided search filter.
- *
  */
 function renderAllContacts(filter) {
     let contacts = contactsArray.sort((a, b) => a.name.localeCompare(b.name));
@@ -117,7 +116,6 @@ function renderAllContacts(filter) {
 
 /**
  * Filters contacts based on a search filter.
- *
  */
 function filterContactsForSearch(filter, contacts) {
     var filterContacts = contacts.filter(function (contact) {
@@ -145,7 +143,6 @@ function renderAllSelectedContacts() {
 
 /**
  * Returns an HTML string representing a selected contact.
- *
  */
 function returnAddTaskSelectedContact(array) {
     return /*html*/`
@@ -155,7 +152,6 @@ function returnAddTaskSelectedContact(array) {
 
 /**
  * Checks if a contact with the given id exists in the selected contacts.
- *
  */
 function contactIdCheck(id) {
     return contactCollection.some(item => item.id === id);
@@ -180,48 +176,45 @@ function selectContactRow(id) {
  * This function saves a new contact to the database and updates the local contact array.
  */
 async function createContact() {
+    const newContact = contactTemplate();
     try {
-        let newContact = contactTemplate();
-        const response = await fetch('http://localhost:8000/api/contacts/list/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newContact),
-        });
-        if (!response.ok) {
-            throw new Error('Fehler beim Erstellen des Kontakts');
+        if (isGuestLogIn()) {
+            await handleGuestContactCreation(newContact);
+        } else {
+            await handleAuthenticatedContactCreation(newContact);
         }
-        const savedContact = await response.json();
-        contactsArray.push(savedContact);
         changesSaved('Contact successfully created');
-        openContactsContainer()
+        openContactsContainer(); // Gemeinsame Aktion nach erfolgreichem Speichern
     } catch (error) {
         console.error('Fehler beim Erstellen des Kontakts:', error);
     }
 }
 
 /**
- * Returns an HTML string representing a contact row.
- *
+ * Handles the creation of a contact for guest users.
  */
-function returnAddTaskContactRow(array) {
-    let selected;
-    let icon;
-    if (contactIdCheck(array.id)) {
-        selected = 'addTask-contact-row-activ';
-        icon = 'src/img/addTaskCheckBox.svg';
-    } else {
-        selected = 'addTask-contact-row';
-        icon = 'src/img/addTaskBox.svg';
+async function handleGuestContactCreation(newContact) {
+    contactsArray.push(newContact);
+    contactId++;
+    await currentUserContactsSave();
+}
+
+/**
+ * Handles the creation of a contact for authenticated users.
+ */
+async function handleAuthenticatedContactCreation(newContact) {
+    const response = await fetch('http://localhost:8000/api/contacts/list/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${activUser.token}`,
+            'X-CSRFToken': activUser.csrfToken,
+        },
+        body: JSON.stringify(newContact),
+    });
+    if (!response.ok) {
+        throw new Error('Fehler beim Erstellen des Kontakts.');
     }
-    return /*html*/`
-    <div onclick='selectContactRow(${array.id})' class=${selected}>
-        <div style="display: flex; justify-content: flex-start; align-items: center; gap: 20px;">
-            <div style="${array.color}" class="userCircle">${array.nameAbbreviation}</div>
-            <span class="contacts-container-row-span">${array.name}</span>
-        </div>
-        <img src=${icon} alt="checkBox">
-    </div>
-`;
+    const savedContact = await response.json();
+    contactsArray.push(savedContact);
 }

@@ -80,22 +80,3 @@ function subtaskListHoverReset(i) {
     let box = document.getElementById(`subtaskListFunctions${i}`);
     box.classList.add('d-none');
 }
-
-/**
- * Returns an HTML string representing a sub-task list item.
- */
-function returnSubTasks(subCollection, i) {
-    return /*html*/ `
-    <ul id='subtaskUl${i}' onmouseover="subtaskListHover(${i})"
-    onmouseout="subtaskListHoverReset(${i})" ondblclick="showEditContainer(${i})" class="subtaskListItem">
-        <li>${subCollection}</li>
-        <div id="subtaskListFunctions${i}" class='d-none' style="display: flex; gap: 5px;">
-            <img class="greyHoverIcon" onclick="showEditContainer(${i})"
-                src="src/img/PenAddTask 1=edit.svg">
-            <div class="seperator" style='background: #F6F7F8'></div>
-            <img class="greyHoverIcon" onclick="deleteSubtask(${i})"
-                src="src/img/subTaskDelete.svg">
-        </div>
-    </ul>
-    `
-}

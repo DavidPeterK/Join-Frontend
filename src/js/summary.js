@@ -1,7 +1,3 @@
-function markNavButton() {
-
-}
-
 /**
  * Asynchronously initializes the summary section.
  */
@@ -57,7 +53,6 @@ function addAnimationOnResize() {
 function loadUrgentPrioDate() {
     let container = document.getElementById('urgentDate');
     const nextUrgentDate = getNextUrgentDueDate(tasks);
-
     if (nextUrgentDate) {
         const convertedDate = convertDateFormat(nextUrgentDate);
         container.innerHTML = convertedDate;
@@ -66,7 +61,6 @@ function loadUrgentPrioDate() {
     }
 }
 
-//----------------- load Time of Day------------------
 /**
  * This function shows the greeting for the user
  * 
@@ -80,7 +74,6 @@ function daylyGreeting() {
 
 /**
  * This function returns greeting based on the current time of day
- * 
  */
 function getTimeOfDay() {
     const time = new Date().getHours();
@@ -101,7 +94,6 @@ function dayTimeGreeting(dayTime) {
 
 /**
  * This function searches the next urgent due date
- * 
  */
 function getNextUrgentDueDate(tasks) {
     const urgentTasks = tasks.filter(task => task.priority === "Urgent");
@@ -116,9 +108,6 @@ function getNextUrgentDueDate(tasks) {
 
 /**
  * Converts a date string in the format "DD/MM/YYYY" to a more human-readable format "MonthName DD, YYYY".
- * @param {string} inputDate - The date string to be converted, in the format "DD/MM/YYYY".
- * @example
- * // returns "January 01, 2021"
  * convertDateFormat("01/01/2021");
  */
 function convertDateFormat(inputDate) {
@@ -132,7 +121,6 @@ function convertDateFormat(inputDate) {
 
 /**
  * This function searches the number of tasks in the respective category
- * 
  */
 function loadNumbers() {
     let todo = tasks.filter(t => t['status'] == 'toDo').length;
@@ -146,7 +134,6 @@ function loadNumbers() {
 
 /**
  * This function shows the number of tasks in the respective category
- * 
  */
 function displayNumbers(todo, inProgress, awaitingFeedback, done, allTasks, urgent) {
     document.getElementById('todoNumber').innerHTML = todo;

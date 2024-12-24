@@ -8,16 +8,12 @@ let currentSubtask = '';
  */
 async function addTaskInit() {
     highLightNavBar('src/img/addTaskActiv.svg', 'addTaskNavIcon', 'addTaskNavButton');
-    loadActivUser();
-    userCircleLoad();
+    loadActivUser(); userCircleLoad();
     await loadAllContacts();
-    await currentUserCategorysLoad();
-    await currentUserIdLoad();
+    currentUserCategorysLoad(); currentUserIdLoad();
     await loadAllTasks();
-    renderPrioSection();
-    renderCategoryPopUp();
-    selectedPrio = 'Medium';
-    controlPrioButton();
+    renderPrioSection(); renderCategoryPopUp();
+    selectedPrio = 'Medium'; controlPrioButton();
 }
 
 /**
@@ -34,7 +30,7 @@ function loadTaskControl(id) {
 /**
  * Controls the creation or editing of a task based on the input values.
  */
-function createTaskControl(title, description, dueDate, categoryId, id) {
+async function createTaskControl(title, description, dueDate, categoryId, id) {
     if (title.value === '') {
         warnValTask('addTaskTitleBox', 'warnTitle');
     } else if (description.value === '') {
@@ -68,34 +64,63 @@ function warnValTask(box, title) {
  * Creates a new task and adds it to the tasks collection.
  */
 async function createTask() {
-    try {
-        let task = createTaskObject();
-        const response = await fetch('http://localhost:8000/api/tasks/list/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${activUser.token}`,
-                'X-CSRFToken': activUser.csrfToken,
-            }, body: JSON.stringify(task),
-        });
-        if (!response.ok) {
-            console.log(response);
-            throw new Error('Fehler beim Speichern der neuen Task.');
+    if (isGuestLogIn()) {
+        createTaskForGuest();
+    }
+    else {
+        try {
+            let task = createTaskObject();
+            const savedTask = await saveTaskToAPI(task);
+            tasks.push(savedTask);
+            changesSaved('Task added to board');
+            handlePostTaskAction(savedTask);
+        } catch (error) {
+            console.error('Fehler beim Erstellen der Task:', error);
         }
-        const savedTask = await response.json();
-        tasks.push(savedTask);
-        changesSaved('Task added to board');
-        if (window.location.pathname.endsWith('board.html')) {
-            closeAddTaskPopup();
-            renderAllTasks();
-        }
-        else {
-            setTimeout(() => {
-                window.location.href = './board.html';
-            }, 3000);
-        }
-    } catch (error) {
-        console.error('Fehler beim Erstellen der Task:', error);
+    }
+}
+
+function createTaskForGuest() {
+    let task = createTaskObject();
+    tasks.push(task);
+    currentId++;
+    currentUserIdSave();
+    currentUserTaskSave();
+    changesSaved('Task added to board');
+    handlePostTaskAction();
+}
+
+/**
+ * Sends a POST request to save a new task to the API.
+ */
+async function saveTaskToAPI(task) {
+    const response = await fetch('http://localhost:8000/api/tasks/list/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${activUser.token}`,
+            'X-CSRFToken': activUser.csrfToken,
+        },
+        body: JSON.stringify(task),
+    });
+    if (!response.ok) {
+        console.error(response);
+        throw new Error('Fehler beim Speichern der neuen Task.');
+    }
+    return await response.json();
+}
+
+/**
+ * Handles UI and navigation actions after saving a task.
+ */
+function handlePostTaskAction() {
+    if (window.location.pathname.endsWith('board.html')) {
+        closeAddTaskPopup();
+        renderAllTasks();
+    } else {
+        setTimeout(() => {
+            window.location.href = './board.html';
+        }, 3000);
     }
 }
 
@@ -103,38 +128,82 @@ async function createTask() {
  * Edits an existing task based on the provided ID.
  */
 async function editTasks(taskId) {
-    try {
-        const taskIndex = tasks.findIndex(task => task.id === taskId);
-        if (taskIndex === -1) {
-            console.error("Task nicht gefunden.");
-            return;
+    if (isGuestLogIn()) {
+        editTaskForGuest(taskId);
+    } else {
+        try {
+            const taskIndex = findTaskIndex(taskId);
+            if (taskIndex === -1) {
+                console.error("Task nicht gefunden.");
+                return;
+            }
+            const updatedTask = createTaskObject();
+            await updateTaskInAPI(taskId, updatedTask);
+            updateLocalTask(taskIndex, updatedTask);
+            handlePostEditActions();
+        } catch (error) {
+            console.error('Fehler beim Bearbeiten der Task:', error);
         }
-        const updatedTask = createTaskObject();
-        const response = await fetch(`http://localhost:8000/api/tasks/edit/${taskId}/`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${activUser.token}`,
-                'X-CSRFToken': activUser.csrfToken,
-            }, body: JSON.stringify(updatedTask),
-        });
-        if (!response.ok) {
-            throw new Error('Fehler beim Aktualisieren der Task.');
-        }
-        console.log('Task erfolgreich aktualisiert.');
-        tasks[taskIndex] = updatedTask;
-        changesSaved('Task added to board');
-        closeAddTaskPopup();
-        await loadAllTasks();
-        renderAllTasks();
-    } catch (error) {
-        console.error('Fehler:', error);
     }
+}
+
+function editTaskForGuest(taskId) {
+    const index = findTaskIndex(taskId);
+    let task = createTaskObject();
+    tasks[index] = task;
+    currentUserTaskSave();
+    changesSaved('Task added to board');
+    closeAddTaskPopup();
+    renderAllTasks();
+}
+
+/**
+ * Finds the index of a task in the local tasks array by ID.
+ */
+function findTaskIndex(taskId) {
+    return tasks.findIndex(task => task.id === taskId);
+}
+
+/**
+ * Updates a task in the local tasks array.
+ */
+function updateLocalTask(taskIndex, updatedTask) {
+    tasks[taskIndex] = updatedTask;
+    console.log('Lokale Task-Liste aktualisiert.');
+}
+
+/**
+ * Handles UI updates and task reloading after editing a task.
+ */
+async function handlePostEditActions() {
+    changesSaved('Task updated successfully.');
+    closeAddTaskPopup();
+    await loadAllTasks();
+    renderAllTasks();
+}
+
+/**
+ * Sends a PUT request to update a task in the API.
+ */
+async function updateTaskInAPI(taskId, updatedTask) {
+    const response = await fetch(`http://localhost:8000/api/tasks/edit/${taskId}/`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${activUser.token}`,
+            'X-CSRFToken': activUser.csrfToken,
+        },
+        body: JSON.stringify(updatedTask),
+    });
+    if (!response.ok) {
+        throw new Error('Fehler beim Aktualisieren der Task.');
+    }
+    console.log('Task erfolgreich in der API aktualisiert.');
 }
 
 /** Collects and returns data for a new task. */
 function createTaskObject() {
-    return {
+    const task = {
         'status': statusGroup,
         'category': currentCategorySelected.name,
         'categoryColor': currentCategorySelected.color,
@@ -145,7 +214,11 @@ function createTaskObject() {
         'assignContacts': contactCollection,
         'subtasksInProgress': subtasks,
         'subtasksFinish': subtasksFinish,
+    };
+    if (isGuestLogIn()) {
+        task.id = currentId;
     }
+    return task;
 }
 
 /**
@@ -192,7 +265,6 @@ function setStatusToDo() {
     statusGroup = 'toDo';
 }
 
-//only for date-input by addTask.html/ Due date//
 /**
  * Event listener to initialize a date picker for task due date input.
  */
@@ -202,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
         field: dateInput,
         position: 'center',
         format: 'DD/MM/YYYY',
-        minDate: new Date(), // Das stellt sicher, dass kein Datum vor dem heutigen Datum ausgewählt werden kann.
+        minDate: new Date(),
         onSelect: function (date) {
             const formattedDate = [
                 date.getDate().toString().padStart(2, '0'),
@@ -212,7 +284,6 @@ document.addEventListener('DOMContentLoaded', function () {
             dateInput.value = formattedDate;
         }
     });
-
     dateInput.addEventListener('focus', function () {
         if (!this.value) {
             const today = new Date();

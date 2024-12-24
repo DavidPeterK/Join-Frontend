@@ -34,7 +34,6 @@ function initContainer() {
     signUpButtonBottom = document.getElementById('signSectionBottom');
 }
 
-
 /**
  * Renders the sign-in content.
  */
@@ -73,7 +72,6 @@ function isCheckBoxChecked() {
     }
 }
 
-
 /**
  * Switches the content between sign-in and sign-up.
  */
@@ -100,33 +98,15 @@ function updateContent(newContent) {
  * Validates user credentials and logs them in if valid.
  */
 async function login() {
-    let user = document.getElementById('userLogin');
-    let password = document.getElementById('passwordLogin');
-    const userData = {
-        username: user.value,
-        password: password.value,
-    };
+    const userData = collectLoginData();
     try {
-        const response = await fetch(LoginFetchUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        });
+        const response = await performLoginRequest(userData);
         const data = await response.json();
+
         if (response.ok) {
-            isCheckBoxChecked();
-            activUser['name'] = data.username;
-            activUser['token'] = data.token;
-            activUser['csrfToken'] = data.csrfToken;
-            saveActivUser();
-            console.log('data:', data);
-            window.location.href = "./summary.html";
-        }
-        else if (!response.ok) {
-            loadRedBorderInput();
-            loadWarningTextTemplate();
+            handleSuccessfulLogin(data);
+        } else {
+            handleFailedLogin();
         }
     } catch (error) {
         console.error('Error:', error);
@@ -134,6 +114,56 @@ async function login() {
     }
 }
 
+/**
+ * Collects the login data from input fields.
+ * @returns {object} The user login data.
+ */
+function collectLoginData() {
+    const user = document.getElementById('userLogin').value;
+    const password = document.getElementById('passwordLogin').value;
+    return {
+        username: user,
+        password: password,
+    };
+}
+
+/**
+ * Sends a login request to the server.
+ * @param {object} userData - The login data to send.
+ * @returns {Response} The server's response.
+ */
+async function performLoginRequest(userData) {
+    return await fetch(LoginFetchUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+    });
+}
+
+/**
+ * Handles the logic for a successful login.
+ * @param {object} data - The data returned by the server.
+ */
+function handleSuccessfulLogin(data) {
+    isCheckBoxChecked();
+    activUser['name'] = data.username;
+    activUser['token'] = data.token;
+    activUser['csrfToken'] = data.csrfToken;
+    saveActivUser();
+    console.log('data:', data);
+    window.location.href = "./summary.html";
+}
+
+/**
+ * Handles the logic for a failed login attempt.
+ */
+function handleFailedLogin() {
+    loadRedBorderInput();
+    loadWarningTextTemplate();
+    console.warn('Login fehlgeschlagen');
+}
 
 /**
  * Logs in a user as a guest and fills default data arrays.

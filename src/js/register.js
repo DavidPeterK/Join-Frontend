@@ -79,34 +79,19 @@ function loadWarningTextTamplate() {
         }, 4000);
     }
 }
-//------------------------------------------------------------------------//
 
 /**
  * Registers a new user, saves the user's data, and redirects to the homepage after successful registration.
  */
 async function handleRegistration() {
-    const userData = registrationUserForm();
+    const userData = collectRegistrationData();
     try {
-        const response = await fetch(RegisterFetchUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        });
+        const response = await sendRegistrationRequest(userData);
         const data = await response.json();
         if (response.ok) {
-            if (data.username == "A user with that username already exists.") {
-                handleUsernameExists();
-            } else {
-                changesSaved('You Signed Up successfully');
-                setTimeout(() => {
-                    switchContent('signIn');
-                    console.log(data);
-                }, 3000);
-            }
-        } else if (!response.ok) {
-            registrationErrorHandle(data);
+            handleRegistrationSuccess(data);
+        } else {
+            handleRegistrationErrors(data);
         }
     } catch (error) {
         console.error('Error:', error);
@@ -114,25 +99,60 @@ async function handleRegistration() {
     }
 }
 
-function registrationErrorHandle(data) {
-    if (data.error == "User with that username already exists") {
+/**
+ * Handles registration-specific errors from the server response.
+ */
+function handleRegistrationErrors(data) {
+    if (data.error === "User with that username already exists") {
         handleUsernameExists();
     }
-    if (data.error == "User with that email already exists") {
+    if (data.error === "User with that email already exists") {
         handleEmailExists();
     }
-    if (data.error == "passwords dont match") {
+    if (data.error === "passwords dont match") {
         handlePasswordMismatch();
     }
 }
 
-function registrationUserForm() {
+/**
+ * Collects user registration data from the form.
+ * @returns {object} The registration data.
+ */
+function collectRegistrationData() {
     return {
         username: userName.value,
         email: email.value,
         password: password.value,
         repeated_password: confirmPassword.value,
     };
+}
+
+/**
+ * Sends a POST request to register a new user.
+ */
+async function sendRegistrationRequest(userData) {
+    return await fetch(RegisterFetchUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+    });
+}
+
+/**
+ * Handles a successful registration response.
+ */
+function handleRegistrationSuccess(data) {
+    if (data.username === "A user with that username already exists.") {
+        handleUsernameExists();
+    } else {
+        changesSaved('You Signed Up successfully');
+        setTimeout(() => {
+            switchContent('signIn');
+            console.log('Registration data:', data);
+        }, 3000);
+    }
 }
 
 /**
@@ -153,5 +173,3 @@ async function registUser() {
         await handleRegistration();
     }
 }
-
-

@@ -1,4 +1,3 @@
-//------------------------LogIn Ainimation--------------------//
 /**
  * Starts the join-logo animation if the document referrer is empty.
 */
@@ -51,8 +50,7 @@ function addClasses() {
         elem.classList.add('fade-out');
     });
 }
-//----------------------------------------------------------------------//
-//-------------------------successFully popUp---------------------------//
+
 /** * This function is used to the edit and delete menu on the mobile view */
 function changesSaved(inputText) {
     let smallContainer = document.getElementById('successfullyCreated')
@@ -62,7 +60,7 @@ function changesSaved(inputText) {
         smallContainer.classList.add('d-none');
     }, 2900);
 }
-//----------------------------------------------------------------------//
+
 /**
  * Prevents the event from propagating further.
  */
@@ -77,7 +75,6 @@ function goBack() {
     window.history.back();
 }
 
-//------------------------Header-Menu----------------------------//
 let openMenu = false;
 
 /**
@@ -109,7 +106,7 @@ function openHeaderMenu(event) {
         showHeadMenu();
     }
 }
-//----------------------------------------------------------------------//
+
 /**
  * Opens the swap box for a specific task.
  */

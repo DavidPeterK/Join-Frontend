@@ -121,60 +121,82 @@ function initContactPopUp(array) {
  * This function saves a new contact to the database and updates the local contact array.
  */
 async function createContact() {
+    const newContact = contactTemplate();
     try {
-        let newContact = contactTemplate();
-
-        // POST-Request an die API senden
-        const response = await fetch('http://localhost:8000/api/contacts/list/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${activUser.token}`,
-                'X-CSRFToken': activUser.csrfToken,
-            }, body: JSON.stringify(newContact),
-        });
-
-        if (!response.ok) {
-            throw new Error('Fehler beim Erstellen des Kontakts');
+        if (isGuestLogIn()) {
+            handleGuestContactCreation(newContact);
+        } else {
+            const savedContact = await saveContactToAPI(newContact);
+            handleAuthenticatedContactCreation(savedContact);
         }
-
-        const savedContact = await response.json(); // Kontakt mit Server-ID zurückbekommen
-        contactsArray.push(savedContact); // Lokales Array aktualisieren
-
-        changesSaved('Contact successfully created');
-        renderContactInfo(savedContact.id); // Rendern mit der tatsächlichen Server-ID
-
     } catch (error) {
         console.error('Fehler beim Erstellen des Kontakts:', error);
     }
 }
 
+/**
+ * Sends a POST request to save a contact in the API.
+ */
+async function saveContactToAPI(contact) {
+    const response = await fetch('http://localhost:8000/api/contacts/list/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${activUser.token}`,
+            'X-CSRFToken': activUser.csrfToken,
+        },
+        body: JSON.stringify(contact),
+    });
+    if (!response.ok) {
+        throw new Error('Fehler beim Erstellen des Kontakts.');
+    }
+    return await response.json();
+}
+
+/**
+ * Handles contact creation for authenticated users.
+ */
+function handleAuthenticatedContactCreation(savedContact) {
+    contactsArray.push(savedContact);
+    changesSaved('Contact successfully created');
+    renderContactInfo(savedContact.id);
+}
 
 /**
  * Edits an existing contact, updates it in the database, and synchronizes with the local array.
  */
 async function editContact(index) {
+    const updatedContact = contactTemplate();
     try {
-        let contact = contactsArray[index];
-        let updatedContact = contactTemplate();
-        const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Token ${activUser.token}`,
-                'X-CSRFToken': activUser.csrfToken,
-            }, body: JSON.stringify(updatedContact),
-        });
-        if (!response.ok) {
-            throw new Error('Fehler beim Bearbeiten des Kontakts');
+        if (isGuestLogIn()) {
+            handleGuestContactEdit(index, updatedContact);
+        } else {
+            const savedContact = await updateContactInAPI(index, updatedContact);
+            handleAuthenticatedContactEdit(index, savedContact);
         }
-        const savedContact = await response.json();
-        contactsArray[index] = savedContact;
-        changesSaved('Contact successfully edited');
-        renderContactInfo(savedContact.id);
     } catch (error) {
         console.error('Fehler beim Bearbeiten des Kontakts:', error);
     }
+}
+
+/**
+ * Sends a PATCH request to update a contact in the API.
+ */
+async function updateContactInAPI(index, updatedContact) {
+    const contact = contactsArray[index];
+    const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${activUser.token}`,
+            'X-CSRFToken': activUser.csrfToken,
+        },
+        body: JSON.stringify(updatedContact),
+    });
+    if (!response.ok) {
+        throw new Error('Fehler beim Bearbeiten des Kontakts.');
+    }
+    return await response.json();
 }
 
 /**
@@ -188,33 +210,20 @@ function deleteContactWindow(id) {
     container.classList.remove('d-none');
 }
 
-
 /**
  * Deletes a contact from the server and updates the UI.
  */
 async function deleteContact(index) {
     try {
-        const contact = contactsArray[index];
-        const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Token ${activUser.token}`,
-                'X-CSRFToken': activUser.csrfToken,
-            },
-        });
-        if (!response.ok) {
-            throw new Error('Fehler beim Löschen des Kontakts.');
+        if (isGuestLogIn()) {
+            handleGuestContactDeletion(index);
+        } else {
+            await handleAuthenticatedContactDeletion(index);
         }
-        console.log(`Kontakt mit ID ${contact.id} erfolgreich gelöscht.`);
-        contactsArray.splice(index, 1);
-        closeContactInfoSmall();
-        renderContactInfoEmpty();
-        document.getElementById('contactsDeletePopUp').classList.add('d-none');
     } catch (error) {
         console.error('Fehler beim Löschen des Kontakts:', error);
     }
 }
-
 
 /**
  * Renders the contact information in a popup for smaller screens.
@@ -244,75 +253,4 @@ function closeContactInfoSmall() {
 function closeDeleteWindow() {
     let container = document.getElementById('contactsDeletePopUp');
     container.classList.add('d-none');
-}
-
-/**
- * Returns HTML for an empty contact information container.
- */
-function returnEmptyInfoContainer() {
-    return /*html*/`
-    <div class="head-section">
-        <h2 style='margin-bottom: 32px'>Contacts</h2>
-        <div class="vector-span-direction">
-            <div class="vectorContacts"></div>
-            <span class="head-span">Better with a team</span>
-        </div>
-    </div>    
-    `;
-}
-
-/**
- * Returns HTML for rendering a contact row in the contact list.
- */
-function returnContactRow(array) {
-    return /*html*/`
-    <div onclick='renderContactInfo(${array.id})' id='contactId${array.id}' class="contact-row">
-        <div style="${array.color}" class="contact-circle">${array.nameAbbreviation}</div>
-        <div class="name-email-box">
-            <span class="contact-name-list">${array.name}</span>
-            <span class="contact-email-list">${array.email}</span>
-        </div>
-    </div>
-`;
-}
-
-function returnDeleteWindow(array, index) {
-    return /*html*/`
-   <div class="deleteQuest">
-        <span style='text-align: center' class="category-span">Do you really want to delete <span style="color: #29abe2;">${array.name}</span>?
-        </span>
-        <div style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 28px;">
-            <button onclick='closeDeleteWindow()' class="pop-button-cancel">No</button>
-            <button onclick='deleteContact(${index})' class="pop-button-create">Yes</button>
-        </div>
-    </div>
-    `;
-}
-
-function returnContactInfoContainerRight(array) {
-    return /*html*/`
-    <div class="contacts-info-name-box">
-        <div style="${array.color}" class="big-contact-circle">${array.nameAbbreviation}</div>
-        <div class="split-container-name-functions">
-            <span class="contacts-info-name-span">${array.name}</span>
-            <div class="functions-buttons-box">
-                <span onclick='editContactInit(${array.id})' class="edit-button"><img src="src/img/PenAddTask 1=edit.svg" alt=""> Edit</span>
-                <span onclick='deleteContactWindow(${array.id})' class="delete-button"><img src="src/img/subTaskDelete.svg" alt=""> Delete</span>
-            </div>
-        </div>
-    </div>
-
-    <span class="headline-info-center">Contact Information</span>
-
-    <div class="split-container">
-        <div class="split-span-box">
-            <span class="email-headline">Email</span>
-            <a style='text-decoration: none' href='mailto:${array.email}' class="email-adress">${array.email}</a>
-        </div>
-        <div class="split-span-box">
-            <span class="phone-headline">Phone</span>
-            <a style='text-decoration: none' href='tel:${array.phone}' class="phone-number">${array.phone}</a>
-        </div>
-    </div>    
-    `;
 }

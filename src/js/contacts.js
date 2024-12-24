@@ -29,20 +29,22 @@ function cancelContactPopUp() {
  * Creates a contact template with default values based on user input.
  */
 function contactTemplate() {
-    return {
+    const contact = {
         "name": nameToUpperCase(document.getElementById('contactUserName').value),
         "nameAbbreviation": makeNameAbbreviation(document.getElementById('contactUserName').value),
         "email": document.getElementById('contactEmail').value,
         "phone": document.getElementById('contactPhone').value,
         "color": getColor(),
+    };
+    if (isGuestLogIn()) {
+        contact.id = contactId;
     }
+    return contact;
 }
 
 /**
  * Validates the input value of a form's phone field.
  * Checks whether the entered phone number only contains the plus symbol and digits 0-9. 
- * If the validation fails, it displays an error message and prevents form submission. 
- * Otherwise, it allows form submission.
  */
 function validateForm(mode, index) {
     if (checkInputPhone() && checkInputEmail() && checkInputName()) {
@@ -174,13 +176,11 @@ function returnPopUpContactNew(mode, index) {
             <span class="pop-slogen">Tasks are better with a team!</span>
             <div class="pop-vector"></div>
         </div>
-
         <div class="pop-icon-box">
             <div class="pop-person-background"><img class="pop-person-png" src="src/img/person.svg"
                     alt="person-icon">
             </div>
         </div>
-
         <form ${sub} style="display: flex; align-self: stretch; flex: 2;">
             <div class="pop-input-box">
                 <div class="input-pop-container" id="contactNameBox">
@@ -190,7 +190,6 @@ function returnPopUpContactNew(mode, index) {
                 <span id="warnContactName" style="text-align: center;" class="warningByInput d-none">
                     Please enter only letters.
                 </span>
-
                 <div class="input-pop-container" id="contactEmailBox">
                     <input required type="email" minlength="4" placeholder="Email" id="contactEmail">
                     <img class="input-icon" src="src/img/input-mail.svg" alt="email-icon">
@@ -198,7 +197,6 @@ function returnPopUpContactNew(mode, index) {
                 <span id="warnContactEmail" style="text-align: center;" class="warningByInput d-none">
                     Please enter a valid email address.
                 </span>
-
                 <div class="input-pop-container" id="contactPhoneBox">
                     <input required type="tel" minlength="4" placeholder="Phone" id="contactPhone">
                     <img class="input-icon" src="src/img/call.svg" alt="phone-icon">
@@ -206,7 +204,6 @@ function returnPopUpContactNew(mode, index) {
                 <span id="warnContactPhone" style="text-align: center;" class="warningByInput d-none">
                     Invalid input! Only + and numbers from 0-9 are allowed.
                 </span>
-
                 <div id="contactPopUpButtons" class="pop-button-box">
                     <button onclick="cancelContactPopUp()" type="reset"
                         class="pop-button-cancel">Cancel</button>

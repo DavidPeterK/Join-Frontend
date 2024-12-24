@@ -1,4 +1,3 @@
-//-------------Log-in---------------//
 function signInHtml() {
     return /*html*/`
     <form onsubmit="login(); return false">
@@ -40,7 +39,6 @@ function signUpSection() {
     `;
 }
 
-//-------------Register---------------//
 function signUpHtml() {
     return /*html*/`
     <form onsubmit="registUser(); return false">
@@ -101,7 +99,6 @@ function signUpHtml() {
     `;
 }
 
-//-------------Arrays for guest---------------//
 /**
  * Fills default test data for the guest login. This data includes sample contacts, tasks, and categories.
  */
@@ -140,7 +137,6 @@ function fillTestArray() {
             "id": 3
         }
     ];
-
     tasks = [
         {
             "id": 15,
@@ -296,7 +292,6 @@ function fillTestArray() {
             "subtasksFinish": []
         }
     ];
-
     ownCategorys = {
         "name": [
             "New project"

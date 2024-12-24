@@ -124,17 +124,3 @@ function controlPrioButton() {
         resetUrgentButton();
     }
 }
-
-/**
- * Returns an HTML string representing the priority section.
- *
- */
-function returnPrioSection() {
-    return /*html*/`
-    <div onclick="urgentButtonClick()" id="urgentButton" class="prioButton">Urgent<img id="urgentImg"
-            src="src/img/prioUrgent.svg" alt="urgent-icon"></div>
-    <div onclick="mediumButtonClick()" id="mediumButton" class="prioButton">Medium<img id="mediumImg"
-            src="src/img/prioMedium.svg" alt="medium-icon"></div>
-    <div onclick="lowButtonClick()" id="lowButton" class="prioButton">Low<img id="lowImg"
-            src="src/img/prioLow.svg" alt="low-icon"></div>`;
-}

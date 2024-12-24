@@ -16,10 +16,12 @@
     <script src="src/js/saveAndLoad.js"></script>
     <script src="src/js/templates.js"></script>
     <script src="src/js/animation.js"></script>
+    <script src="src/js/addTask-temp.js"></script>
     <script src="src/js/addTask-prio.js"></script>
     <script src="src/js/addTask-categorys.js"></script>
     <script src="src/js/addTask-subtask.js"></script>
     <script src="src/js/addTask-contacts.js"></script>
+    <script src="src/js/contacts-temp.js"></script>
     <script src="src/js/contacts.js"></script>
     <script src="src/js/addTask.js"></script>
     <title>Join</title>
@@ -35,7 +37,6 @@
             <div onclick="openHeaderMenu(event)" id="headerUserCircle" class="header-userCircle"></div>
         </div>
     </div>
-
     <div id="navBar" class="navBar">
         <img id="navBarLogo" src="src/img/join.logo-white.svg" alt="join-logo">
         <div class="nav-elements">
@@ -52,29 +53,22 @@
                     class="nav-icons" src="src/img/contacts-icon.svg" alt="nav-icon">Contacts
             </a>
         </div>
-
         <div class="nav-footer">
             <a href="./privacyPolicy.html" class="navbar-footer-span">Privacy Policy</a>
             <a href="./legalNotice.html" class="navbar-footer-span">Legal notice</a>
         </div>
-
     </div>
-
     <div id="userOptions" onclick="doNotClose(event)" class="user-options d-none">
         <a href="./legalNotice.html" class="userOptionsSpan">Legal Notice</a>
         <a href="./privacyPolicy.html" class="userOptionsSpan">Privacy Policy</a>
         <a href="./help.html" class="userOptionsSpan">Help</a>
         <a href="./index.html" class="userOptionsSpan">Log out</a>
     </div>
-
     <div id="successfullyCreated" class="d-none"></div>
-
     <div id="contentId" class="content-addTask">
-
         <div class="head-section-addTask">
             <h2>Add Task</h2>
         </div>
-
         <div class="addTaskContent">
             <div class="boxLeft">
                 <span class="addTaskSpan">Title<span class="star-red">*</span></span>
@@ -84,18 +78,13 @@
                 <span id="warnTitle" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
                     This field is required.
                 </span>
-
-
                 <div class="gapContainer"></div>
-
                 <span class="addTaskSpan">Description<span class="star-red">*</span></span>
                 <textarea id="addTaskDescriptionInput" placeholder="Enter a Description" cols="30" rows="10"></textarea>
                 <span id="warnDescription" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
                     This field is required.
                 </span>
-
                 <div class="gapContainer"></div>
-
                 <span class="addTaskSpan">Assigned to</span>
                 <div onclick="openContactsContainer(), doNotClose(event)" id="addTaskContactsInputBox"
                     class="addTask-input-container" style="z-index: 0;">
@@ -112,9 +101,7 @@
                     <button onclick="showContactsPopUp()" class="addContacts-button">Add new contact</button>
                 </div>
             </div>
-
             <div class="gapContainer1200"></div>
-
             <div class="boxRight">
                 <span class="addTaskSpan">Due date<span class="star-red">*</span></span>
                 <div id="addTaskDueDateBox" class="addTask-input-container">
@@ -124,15 +111,11 @@
                 <span id="warnDueDate" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
                     This field is required.
                 </span>
-
                 <div class="gapContainer"></div>
-
                 <span class="addTaskSpan">Prio</span>
                 <div id="prioSection" class="prioContainer">
                 </div>
-
                 <div class="gapContainer"></div>
-
                 <span class="addTaskSpan">Category<span class="star-red">*</span></span>
                 <div onclick="showCategoryContainer(), doNotClose(event)" style="z-index: 1;"
                     class="addTask-input-container" id="categoryBox">
@@ -150,10 +133,7 @@
                 <span id="warnCategory" style="text-align: center; margin-top: 10px;" class="warningByInput d-none">
                     This field is required.
                 </span>
-
-
                 <div class="gapContainer"></div>
-
                 <span class="addTaskSpan">Subtasks</span>
                 <div class="addTask-input-container">
                     <input id="subtaskInput" type="text" placeholder="Add new subtask">
@@ -186,13 +166,10 @@
             </div>
         </div>
     </div>
-
     <div id="contactsPopUp" class="pop-background d-none">
     </div>
-
     <div id="categoryPopUp" class="pop-background d-none">
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
 </body>
 

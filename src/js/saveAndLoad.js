@@ -1,9 +1,14 @@
 let tasks = [];
 let user = [];
-let activUser = { 'name': '', }
+let activUser = {
+    'name': '',
+    'token': '',
+    'csrfToken': ''
+};
 let isUserLoggedIn;
 let selectedColorIndex = null;
 let contactsArray = [];
+let contactId = 0;
 /** Represents the currently selected index in the task list. */
 let selectedIndex = null;
 /** Collection of background colors used for task categories. */
@@ -64,7 +69,6 @@ function userCircleLoad() {
     container.innerHTML = nameAbbreviation;
 }
 
-//------------------------------------tasks--------------------------------------//
 /**
  * Checks if the current user is logged in as a guest.
  */
@@ -130,8 +134,6 @@ async function loadAllTasks() {
     }
 }
 
-
-//------------------------------------current id--------------------------------------------
 /**
  * Asynchronously saves the current user's ID. 
  * If the active user is 'Guest', the ID is saved to local storage. 
@@ -157,7 +159,6 @@ async function currentUserIdLoad() {
     }
 }
 
-//--------------------------------Categorys------------------------------------------------
 /**
  * Asynchronously saves the current user's categories. 
  * If the active user is 'Guest', the categories are saved to local storage. 
@@ -179,11 +180,8 @@ async function currentUserCategorysLoad() {
     }
 }
 
-//--------------------------------Contacts--------------------------------------------------
 /**
  * Asynchronously saves the current user's contacts. 
- * If the active user is 'Guest', the contacts are saved to local storage. 
- * Otherwise, they are saved to remote storage.
  */
 async function currentUserContactsSave() {
     if (isGuestLogIn()) {
@@ -194,20 +192,12 @@ async function currentUserContactsSave() {
 
 /**
  * Loads all contacts for the current user.
- * For guests, it retrieves them from localStorage.
- * For authenticated users, it fetches them from the Django API.
  */
 async function loadAllContacts() {
     if (isGuestLogIn()) {
-        let contactsLoad = localStorage.getItem('contactsAsText');
-        if (contactsLoad) {
-            contactsArray = JSON.parse(contactsLoad);
-            console.log('Kontakte aus dem lokalen Speicher geladen:', contactsArray);
-        } else {
-            console.info('Keine Kontakte im lokalen Speicher gefunden.');
-            contactsArray = [];
-        }
-    } else {
+        currentUserContactsLoad();
+    }
+    else {
         try {
             const response = await fetch('http://localhost:8000/api/contacts/list/', {
                 method: 'GET',
@@ -228,19 +218,15 @@ async function loadAllContacts() {
     }
 }
 
-/** * This function is to load contacts or display a error message */
 async function currentUserContactsLoad() {
-    if (isGuestLogIn()) {
-        let contactsLoad = localStorage.getItem('contactsAsText');
-        let contactIdLoad = localStorage.getItem('contactIdAsText');
-        if (contactsLoad && contactIdLoad) {
-            contactsArray = JSON.parse(contactsLoad);
-            contactId = JSON.parse(contactIdLoad);
-        }
+    let contactsLoad = localStorage.getItem('contactsAsText');
+    let contactIdLoad = localStorage.getItem('contactIdAsText');
+    if (contactsLoad && contactIdLoad) {
+        contactsArray = JSON.parse(contactsLoad);
+        contactId = JSON.parse(contactIdLoad);
     }
 }
 
-//Activ user
 /**
  * Saves the current active user to local storage.
  */
