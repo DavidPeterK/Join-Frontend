@@ -89,8 +89,12 @@ async function handleRegistration() {
         const response = await sendRegistrationRequest(userData);
         const data = await response.json();
         if (response.ok) {
-            handleRegistrationSuccess(data);
-        } else {
+            if (data.username == "A user with that username already exists.") {
+                handleUsernameExists();
+            } else {
+                handleRegistrationSuccess(data);
+            }
+        } else if (!response.ok) {
             handleRegistrationErrors(data);
         }
     } catch (error) {
