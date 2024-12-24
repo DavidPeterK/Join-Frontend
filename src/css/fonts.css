@@ -169,10 +169,12 @@ li {
 }
 
 .currentTaskDescriptionSpan {
+    display: flex;
     color: var(--black, #000);
     font-size: 20px;
     font-weight: 400;
     line-height: 120%;
+    gap: 8px;
     align-self: stretch;
     word-wrap: break-word;
 }

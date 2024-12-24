@@ -138,8 +138,9 @@ async function moveTo(group) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status: group })
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            }, body: JSON.stringify({ status: group })
         });
         if (!response.ok) {
             throw new Error('Fehler beim Aktualisieren der Task');
@@ -245,8 +246,9 @@ async function moveASubtask(index, subtask) {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            }, body: JSON.stringify({
                 subtasksFinish: finishedSubtasks
             }),
         });

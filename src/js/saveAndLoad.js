@@ -109,9 +109,16 @@ async function loadAllTasks() {
         if (loadTasks) {
             tasks = JSON.parse(loadTasks);
         }
-    } else {
+    } else if (activUser.token !== '') {
         try {
-            const response = await fetch('http://localhost:8000/api/tasks/list/');
+            const response = await fetch('http://localhost:8000/api/tasks/list/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${activUser.token}`,
+                    'X-CSRFToken': activUser.csrfToken,
+                },
+            });
             if (!response.ok) {
                 throw new Error('Fehler beim Laden der Tasks');
             }
@@ -122,6 +129,7 @@ async function loadAllTasks() {
         }
     }
 }
+
 
 //------------------------------------current id--------------------------------------------
 /**
@@ -201,7 +209,14 @@ async function loadAllContacts() {
         }
     } else {
         try {
-            const response = await fetch('http://localhost:8000/api/contacts/list/');
+            const response = await fetch('http://localhost:8000/api/contacts/list/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${activUser.token}`,
+                    'X-CSRFToken': activUser.csrfToken,
+                },
+            });
             if (!response.ok) {
                 throw new Error('Fehler beim Laden der Kontakte von der API');
             }

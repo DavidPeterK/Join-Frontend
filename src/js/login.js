@@ -12,6 +12,7 @@ async function initIndex() {
     activUser = {
         'name': '',
         'token': '',
+        'csrfToken': ''
     };
     initContainer();
     saveActivUser();
@@ -101,12 +102,10 @@ function updateContent(newContent) {
 async function login() {
     let user = document.getElementById('userLogin');
     let password = document.getElementById('passwordLogin');
-
     const userData = {
         username: user.value,
         password: password.value,
     };
-
     try {
         const response = await fetch(LoginFetchUrl, {
             method: 'POST',
@@ -115,13 +114,12 @@ async function login() {
             },
             body: JSON.stringify(userData),
         });
-
         const data = await response.json();
-
         if (response.ok) {
             isCheckBoxChecked();
             activUser['name'] = data.username;
             activUser['token'] = data.token;
+            activUser['csrfToken'] = data.csrfToken;
             saveActivUser();
             console.log('data:', data);
             window.location.href = "./summary.html";
@@ -134,7 +132,6 @@ async function login() {
         console.error('Error:', error);
         alert('An error occurred. Please try again later.');
     }
-
 }
 
 

@@ -85,13 +85,7 @@ function loadWarningTextTamplate() {
  * Registers a new user, saves the user's data, and redirects to the homepage after successful registration.
  */
 async function handleRegistration() {
-    const userData = {
-        username: userName.value,
-        email: email.value,
-        password: password.value,
-        repeated_password: confirmPassword.value,
-    };
-
+    const userData = registrationUserForm();
     try {
         const response = await fetch(RegisterFetchUrl, {
             method: 'POST',
@@ -100,14 +94,11 @@ async function handleRegistration() {
             },
             body: JSON.stringify(userData),
         });
-
         const data = await response.json();
-
         if (response.ok) {
             if (data.username == "A user with that username already exists.") {
                 handleUsernameExists();
             } else {
-                // Erfolgreiche Registrierung
                 changesSaved('You Signed Up successfully');
                 setTimeout(() => {
                     switchContent('signIn');
@@ -115,20 +106,33 @@ async function handleRegistration() {
                 }, 3000);
             }
         } else if (!response.ok) {
-            if (data.error == "User with that username already exists") {
-                handleUsernameExists();
-            }
-            if (data.error == "User with that email already exists") {
-                handleEmailExists();
-            }
-            if (data.error == "passwords dont match") {
-                handlePasswordMismatch();
-            }
+            registrationErrorHandle(data);
         }
     } catch (error) {
         console.error('Error:', error);
         alert('An error occurred. Please try again later.');
     }
+}
+
+function registrationErrorHandle(data) {
+    if (data.error == "User with that username already exists") {
+        handleUsernameExists();
+    }
+    if (data.error == "User with that email already exists") {
+        handleEmailExists();
+    }
+    if (data.error == "passwords dont match") {
+        handlePasswordMismatch();
+    }
+}
+
+function registrationUserForm() {
+    return {
+        username: userName.value,
+        email: email.value,
+        password: password.value,
+        repeated_password: confirmPassword.value,
+    };
 }
 
 /**

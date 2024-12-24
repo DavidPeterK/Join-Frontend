@@ -74,8 +74,9 @@ async function createTask() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(task),
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            }, body: JSON.stringify(task),
         });
         if (!response.ok) {
             console.log(response);
@@ -113,8 +114,9 @@ async function editTasks(taskId) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedTask),
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            }, body: JSON.stringify(updatedTask),
         });
         if (!response.ok) {
             throw new Error('Fehler beim Aktualisieren der Task.');

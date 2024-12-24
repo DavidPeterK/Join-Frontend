@@ -129,8 +129,9 @@ async function createContact() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newContact),
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            }, body: JSON.stringify(newContact),
         });
 
         if (!response.ok) {
@@ -154,28 +155,23 @@ async function createContact() {
  */
 async function editContact(index) {
     try {
-        let contact = contactsArray[index]; // Bestehenden Kontakt abrufen
+        let contact = contactsArray[index];
         let updatedContact = contactTemplate();
-
-        // PATCH-Request an die API senden
         const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedContact),
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            }, body: JSON.stringify(updatedContact),
         });
-
         if (!response.ok) {
             throw new Error('Fehler beim Bearbeiten des Kontakts');
         }
-
-        const savedContact = await response.json(); // Aktualisierte Daten zurückbekommen
-        contactsArray[index] = savedContact; // Lokales Array aktualisieren
-
+        const savedContact = await response.json();
+        contactsArray[index] = savedContact;
         changesSaved('Contact successfully edited');
-        renderContactInfo(savedContact.id); // Rendern mit der tatsächlichen Server-ID
-
+        renderContactInfo(savedContact.id);
     } catch (error) {
         console.error('Fehler beim Bearbeiten des Kontakts:', error);
     }
@@ -201,6 +197,10 @@ async function deleteContact(index) {
         const contact = contactsArray[index];
         const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
             method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${activUser.token}`,
+                'X-CSRFToken': activUser.csrfToken,
+            },
         });
         if (!response.ok) {
             throw new Error('Fehler beim Löschen des Kontakts.');
