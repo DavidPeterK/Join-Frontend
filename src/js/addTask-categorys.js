@@ -57,8 +57,6 @@ function changeCloseInputArrowCategory() {
 
 /**
  * Renders main categories into the specified container.
- *
- * @param {HTMLElement} container - The container to render main categories into.
  */
 function renderMainCategorys(container) {
     for (let m = 0; m < mainCategorys.name.length; m++) {

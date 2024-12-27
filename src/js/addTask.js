@@ -94,7 +94,7 @@ function createTaskForGuest() {
  * Sends a POST request to save a new task to the API.
  */
 async function saveTaskToAPI(task) {
-    const response = await fetch('http://localhost:8000/api/tasks/list/', {
+    const response = await fetch(`${FETCH_URL + 'api/tasks/list/'}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ async function handlePostEditActions() {
  * Sends a PUT request to update a task in the API.
  */
 async function updateTaskInAPI(taskId, updatedTask) {
-    const response = await fetch(`http://localhost:8000/api/tasks/edit/${taskId}/`, {
+    const response = await fetch(`${FETCH_URL}api/tasks/edit/${taskId}/`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

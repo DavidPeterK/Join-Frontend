@@ -1,7 +1,6 @@
 let registerBtn;
 let confirmPassword;
 let email;
-const RegisterFetchUrl = 'http://localhost:8000/api/auth/registration/';
 
 /**
  * Initializes the register container elements.
@@ -135,7 +134,7 @@ function collectRegistrationData() {
  * Sends a POST request to register a new user.
  */
 async function sendRegistrationRequest(userData) {
-    return await fetch(RegisterFetchUrl, {
+    return await fetch(`${FETCH_URL + 'api/auth/registration/'}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

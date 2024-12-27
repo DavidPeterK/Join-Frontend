@@ -3,7 +3,6 @@ let password; let checkbox;
 let userName;
 let signUpButtonTop; let signUpButtonBottom;
 let logo;
-const LoginFetchUrl = 'http://localhost:8000/api/auth/login/';
 
 /**
  * Initializes the index page.
@@ -133,7 +132,7 @@ function collectLoginData() {
  * @returns {Response} The server's response.
  */
 async function performLoginRequest(userData) {
-    return await fetch(LoginFetchUrl, {
+    return await fetch(`${FETCH_URL + 'api/auth/login/'}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -47,7 +47,7 @@ async function handleGuestContactEdit(index, updatedContact) {
  */
 async function handleAuthenticatedContactDeletion(index) {
     const contact = contactsArray[index];
-    const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
+    const response = await fetch(`${FETCH_URL}api/contacts/update/${contact.id}/`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Token ${activUser.token}`,

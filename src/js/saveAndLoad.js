@@ -1,3 +1,4 @@
+const FETCH_URL = 'http://localhost:8000/'
 let tasks = [];
 let user = [];
 let activUser = {
@@ -115,7 +116,7 @@ async function loadAllTasks() {
         }
     } else if (activUser.token !== '') {
         try {
-            const response = await fetch('http://localhost:8000/api/tasks/list/', {
+            const response = await fetch(`${FETCH_URL + 'api/tasks/list/'}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -199,7 +200,7 @@ async function loadAllContacts() {
     }
     else {
         try {
-            const response = await fetch('http://localhost:8000/api/contacts/list/', {
+            const response = await fetch(`${FETCH_URL + 'api/contacts/list/'}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

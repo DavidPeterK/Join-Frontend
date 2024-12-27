@@ -12,7 +12,7 @@ async function handleGuestTaskDeletion(index) {
  */
 async function handleAuthenticatedTaskDeletion(index) {
     const task = tasks[index];
-    const response = await fetch(`http://localhost:8000/api/tasks/edit/${task.id}/`, {
+    const response = await fetch(`${FETCH_URL}api/tasks/edit/${task.id}/`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ async function handleAuthenticatedSubtaskMove(task, subtask, index) {
         finishedSubtasks.push(subtask);
     }
     tasks[index].subtasksFinish = finishedSubtasks;
-    const response = await fetch(`http://localhost:8000/api/tasks/edit/${task.id}/`, {
+    const response = await fetch(`${FETCH_URL}api/tasks/edit/${task.id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ async function handleGuestTaskMove(index, group) {
  */
 async function handleAuthenticatedTaskMove(index, group) {
     tasks[index].status = group;
-    const response = await fetch(`http://localhost:8000/api/tasks/edit/${tasks[index].id}/`, {
+    const response = await fetch(`${FETCH_URL}api/tasks/edit/${tasks[index].id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

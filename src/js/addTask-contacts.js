@@ -203,7 +203,7 @@ async function handleGuestContactCreation(newContact) {
  * Handles the creation of a contact for authenticated users.
  */
 async function handleAuthenticatedContactCreation(newContact) {
-    const response = await fetch('http://localhost:8000/api/contacts/list/', {
+    const response = await fetch(`${FETCH_URL + 'api/contacts/list/'}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
