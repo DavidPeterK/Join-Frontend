@@ -184,7 +184,7 @@ async function editContact(index) {
  */
 async function updateContactInAPI(index, updatedContact) {
     const contact = contactsArray[index];
-    const response = await fetch(`http://localhost:8000/api/contacts/update/${contact.id}/`, {
+    const response = await fetch(`${FETCH_URL}api/contacts/update/${contact.id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

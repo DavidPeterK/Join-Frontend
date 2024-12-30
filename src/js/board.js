@@ -232,7 +232,7 @@ async function moveASubtask(index, subtask) {
         } else {
             await handleAuthenticatedSubtaskMove(task, subtask, index);
         }
-        renderSubtaskRowPopUp(task, index); // Gemeinsames Rendern
+        renderSubtaskRowPopUp(task, index); 
     } catch (error) {
         console.error('Fehler beim Bewegen des Subtasks:', error);
     }

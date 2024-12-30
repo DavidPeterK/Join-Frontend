@@ -47,12 +47,26 @@ function hideEditContainer() {
 /**
  * Edits a sub-task based on the input in the edit container.
  */
+/**
+ * Edits a sub-task in the collection.
+ * Synchronizes changes between subtasksInProgress and subtasksFinish.
+ */
 function editSubtask() {
-    let input = document.getElementById('editSubtaskInput');
-    if (input.value === '') {
+    let input = document.getElementById('editSubtaskInput').value;
+    if (input === '') {
+        const subtaskToDelete = subtasks[currentSubtask];
         subtasks.splice(currentSubtask, 1);
+        const finishedIndex = subtasksFinish.indexOf(subtaskToDelete);
+        if (finishedIndex !== -1) {
+            subtasksFinish.splice(finishedIndex, 1);
+        }
     } else {
-        subtasks[currentSubtask] = input.value;
+        const oldSubtask = subtasks[currentSubtask];
+        subtasks[currentSubtask] = input;
+        const finishedIndex = subtasksFinish.indexOf(oldSubtask);
+        if (finishedIndex !== -1) {
+            subtasksFinish[finishedIndex] = input;
+        }
     }
     renderSubTasks();
 }
@@ -61,7 +75,12 @@ function editSubtask() {
  * Deletes a specific sub-task.
  */
 function deleteSubtask(i) {
-    subtasks.splice(i, 1)
+    const subtaskToDelete = subtasks[i];
+    subtasks.splice(i, 1);
+    const finishedIndex = subtasksFinish.indexOf(subtaskToDelete);
+    if (finishedIndex !== -1) {
+        subtasksFinish.splice(finishedIndex, 1);
+    }
     renderSubTasks();
 }
 

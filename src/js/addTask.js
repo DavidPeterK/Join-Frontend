@@ -2,7 +2,6 @@ let selectedCategorys = '';
 let selectedContacts = '';
 let selectedPrio = '';
 let currentSubtask = '';
-
 /**
  * Initializes the add task page, loading necessary data and setting default values.
  */
